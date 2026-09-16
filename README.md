@@ -47,4 +47,4 @@ node .claude/skills/domuz-deck/scripts/export.js decks/company-overview --name "
 
 ## 注意
 - 会社概要の売上グラフ（`index.html` の `data-chart`）は、元資料でラベルの無かった四半期をグラフから読み取った概算値を含む。実数に差し替えてから外部に出すこと
-- フォント：Century Gothic（英数字）／ヒラギノ角ゴ（日本語）。無い環境では Jost／Noto Sans JP（Google Fonts）に自動フォールバック
+- フォント：Europa（英数字。Adobe Fonts で有効化）／ヒラギノ角ゴ（日本語）。無い環境では Century Gothic → Jost／Noto Sans JP（Google Fonts）に自動フォールバック

@@ -18,17 +18,18 @@
   .service .frame { height: 1.55in; }
   .service .logo-box { height: 1.55in; background: var(--c-paper); border-radius: 8pt; }
   .product-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.08in; }
-  .product-grid img { width: 100%; aspect-ratio: 0.8; object-fit: cover; border-radius: 6pt; }
+  .product-grid img { width: 100%; aspect-ratio: 0.92; object-fit: cover; border-radius: 6pt; }
   .flow { display: grid; grid-template-columns: 1.35in 1fr 1.35in 1fr 1.35in 1fr 1.35in 1fr 1.35in; align-items: start; gap: 0; }
   .flow .box { height: 0.5in; }
   .flow .arrow { margin: 0.25in 0.06in 0; align-self: start; }
   .flow-logo { height: 0.55in; margin-top: 0.08in; display: flex; align-items: center; justify-content: center; background: var(--c-paper); border-radius: 6pt; box-shadow: inset 0 0 0 var(--stroke-rule) var(--c-coral); }
   .flow-logo img { height: 0.4in; object-fit: contain; }
-  .hub-photos { display: grid; grid-template-columns: 4.4in 1fr 1fr; grid-template-rows: 1fr 1fr; gap: 0.15in; height: 2.75in; }
+  .hub-photos { display: grid; grid-template-columns: 4.4in 1fr 1fr; grid-template-rows: 1fr 1fr; gap: 0.15in; flex: 1; min-height: 0; }
   .hub-photos .main { grid-row: 1 / span 2; }
   .hub-photos img { width: 100%; height: 100%; object-fit: cover; border-radius: var(--r-photo); }
-  .fact { display: grid; grid-template-columns: 4.1in 1fr; gap: 0.3in; align-items: start; }
-  .fact .kv { display: flex; gap: 0.1in; align-items: baseline; margin-bottom: 0.2in; }
+  .fact { display: grid; grid-template-columns: 4.1in 1fr; gap: 0.3in; align-items: center; }
+  .fact .kv { display: flex; gap: 0.12in; align-items: baseline; }
+  .fact .kv + .kv { margin-top: 0.18in; }
   .fact .kv b { color: var(--c-green-800); white-space: nowrap; }
   .platform { display: grid; grid-template-columns: 2.2in 1fr 2.3in 1fr 2.2in; grid-template-rows: repeat(3, 1fr); gap: 0.3in 0.1in; height: 100%; }
   .platform .core { grid-row: span 1; }
@@ -52,7 +53,7 @@
   .member { display: grid; grid-template-columns: 1.35in 1fr; gap: 0.25in; align-items: center; }
   .member img { width: 1.35in; height: 1.35in; }
   .angels { display: grid; grid-template-columns: repeat(3, 2.6in); justify-content: space-between; text-align: center; }
-  .angels img, .angels .ph { width: 1.1in; height: 1.1in; margin: 0 auto 0.12in; border-radius: 50%; object-fit: cover; }
+  .angels img, .angels .ph { width: 1.0in; height: 1.0in; margin: 0 auto 0.1in; border-radius: 50%; object-fit: cover; }
   .angels .ph { background: var(--c-gray-100); display: flex; align-items: center; justify-content: center; font-family: var(--font-latin); font-weight: 700; color: var(--c-green-800); }
   .growth { display: grid; grid-template-columns: 1fr 2.05in; gap: 0.25in; height: 100%; }
   .growth .chart { height: 100%; }
@@ -67,7 +68,6 @@
   <div class="cover-body">
     <div class="eyebrow">Company Profile</div>
     <h1 class="cover-title">花卉産業DX／プラットフォーム<br>事業概要資料</h1>
-    <div class="cover-sub">Domuz inc. — Company Profile</div>
     <div class="cover-meta">
       <div class="date">2026.09</div>
       <div class="author">株式会社Domuz　代表取締役　髙木 弘貴</div>
@@ -84,7 +84,6 @@
   <div class="title-block">
     <div class="eyebrow">About Domuz</div>
     <h1 class="title">花と植物の産業を、テクノロジーで前へ</h1>
-    <div class="subtitle-en">Flower &amp; plant industry DX platform</div>
   </div>
   <div class="content">
     <div class="about-grid">
@@ -114,7 +113,6 @@
   <div class="title-block">
     <div class="eyebrow">Our Business</div>
     <h1 class="title">運営サービス</h1>
-    <div class="subtitle-en">Our services</div>
   </div>
   <div class="content">
     <div class="cols cols-3 flex-1">
@@ -154,7 +152,6 @@
   <div class="title-block">
     <div class="eyebrow">Our Business</div>
     <h1 class="title">観葉植物と花のD2C「AND PLANTS」</h1>
-    <div class="subtitle-en">andplants.jp</div>
   </div>
   <div class="content">
     <div class="cols cols-3 flex-1">
@@ -176,12 +173,12 @@
       <div class="card">
         <div class="heading heading--sm center" style="font-size:13pt">特徴的な機能</div>
         <div class="heading heading--sm center mt-3" style="font-size:11.5pt">個体差があっても<br>安心して買える仕組み</div>
-        <div class="row mt-2" style="gap:0.12in; height:1.1in;">
+        <div class="row mt-2" style="gap:0.12in; height:1.0in;">
           <div class="frame" style="width:42%; flex:none;"><img class="photo photo--r6" src="../../design-system/assets/photos/plant-04.jpg" alt=""></div>
           <div class="body-xs"><b class="green">配送前実物写真</b><br>実際に届く商品を配送前に写真で確認。樹形を選べる機能なども提供。</div>
         </div>
-        <div class="heading heading--sm center mt-3" style="font-size:11.5pt">自社ロジスティクス</div>
-        <div class="row mt-2" style="gap:0.08in; height:0.95in;">
+        <div class="heading heading--sm center mt-2" style="font-size:11.5pt">自社ロジスティクス</div>
+        <div class="row mt-2" style="gap:0.08in; height:0.85in;">
           <div class="frame flex-1"><img class="photo photo--r6" src="../../design-system/assets/photos/greenhouse-01.jpg" alt=""></div>
           <div class="frame flex-1"><img class="photo photo--r6" src="../../design-system/assets/photos/flower-hub-02.jpg" alt=""></div>
         </div>
@@ -190,13 +187,13 @@
       <div class="card">
         <div class="heading heading--sm center" style="font-size:13pt">マーケティング</div>
         <div class="heading heading--sm center mt-3" style="font-size:11.5pt">ライフスタイル提案</div>
-        <div class="row mt-2" style="justify-content:center; gap:0.2in; height:1.45in;">
+        <div class="row mt-2" style="justify-content:center; gap:0.2in; height:1.12in;">
           <img class="photo photo--contain photo--r6" style="width:0.85in" src="../../design-system/assets/photos/app-diagnosis-question.png" alt="">
           <img class="photo photo--contain photo--r6" style="width:0.85in" src="../../design-system/assets/photos/app-diagnosis-screen.png" alt="">
         </div>
         <p class="body-xs mt-2">診断機能で、暮らしにぴったりの植物・花を提案。「花や植物のある生活」というライフスタイル自体を訴求。</p>
-        <div class="heading heading--sm center mt-3" style="font-size:11.5pt">デジタルマーケティング</div>
-        <div class="mt-2" style="display:grid; grid-template-columns:1fr auto; row-gap:0.08in; align-items:baseline;">
+        <div class="heading heading--sm center mt-2" style="font-size:11.5pt">デジタルマーケティング</div>
+        <div class="mt-1" style="display:grid; grid-template-columns:1fr auto; row-gap:0.04in; align-items:baseline;">
           <span class="label">サイト PV</span><span class="right"><span class="num green bold" style="font-size:16pt">120</span><span class="label" style="font-size:8.5pt"> 万PV/月</span></span>
           <span class="label">LINE・メルマガ</span><span class="right"><span class="num green bold" style="font-size:16pt">30</span><span class="label" style="font-size:8.5pt"> 万名</span></span>
           <span class="label">SNS フォロワー</span><span class="right"><span class="num green bold" style="font-size:16pt">30</span><span class="label" style="font-size:8.5pt"> 万人</span></span>
@@ -211,7 +208,6 @@
   <div class="title-block">
     <div class="eyebrow">Our Business</div>
     <h1 class="title">C向け事業とB向け事業のシナジー</h1>
-    <div class="subtitle-en">Retail × wholesale</div>
   </div>
   <div class="content">
     <div class="card card--warm" style="padding:0.25in 0.3in;">
@@ -230,7 +226,7 @@
       </div>
     </div>
     <div class="heading heading--sm mt-2" style="font-size:12pt">B向け事業を持つことで</div>
-    <div class="stack mt-1" style="gap:0.1in">
+    <div class="stack mt-1" style="gap:0.06in">
       <div class="row" style="gap:0.12in; align-items:center"><span class="dot-num">1</span><span class="body-sm">仕入れ力・交渉力が向上し、多様な仕入れが可能に。</span></div>
       <div class="row" style="gap:0.12in; align-items:center"><span class="dot-num">2</span><span class="body-sm">ハナイチで余りそうな商品を小売でフラッシュセール（Instagram約16万フォロワー・100万UU/月を活用）し、ロス率を減少。</span></div>
       <div class="row" style="gap:0.12in; align-items:center"><span class="dot-num">3</span><span class="body-sm">C向け・B向けの両方を持つことで、小売のみのときよりも多様な商品の販売が可能に。</span></div>
@@ -243,7 +239,6 @@
   <div class="title-block">
     <div class="eyebrow">Our Growth</div>
     <h1 class="title">売上進捗</h1>
-    <div class="subtitle-en">Quarterly revenue (JPY million)</div>
   </div>
   <div class="content">
     <div class="growth">
@@ -259,7 +254,7 @@
       <div class="stack" style="gap:0.2in">
         <div class="card"><div class="kpi"><div class="kpi__label">2025年 3Q 売上</div><div class="kpi__value" style="font-size:34pt">253<span class="unit">百万円</span></div></div></div>
         <div class="card"><div class="kpi kpi--coral kpi--sm"><div class="kpi__label">前年同期比</div><div class="kpi__value">+45<span class="unit">%</span></div><div class="kpi__note">175 → 253 百万円</div></div></div>
-        <div class="caption" style="margin-top:auto">単位：百万円 ／ 2025年7月時点<br>ハナイチの売上は 2024年2Q より計上</div>
+        <div class="caption" style="margin-top:auto; letter-spacing:0">単位：百万円／2025年7月時点<br>ハナイチ売上は2024年2Qより計上</div>
       </div>
     </div>
   </div>
@@ -273,7 +268,6 @@
   <div class="title-block">
     <div class="eyebrow">Land / House</div>
     <h1 class="title">観葉植物発送拠点</h1>
-    <div class="subtitle-en">Plant fulfillment center — Yokohama</div>
   </div>
   <div class="content">
     <div class="hub-photos">
@@ -281,7 +275,7 @@
       <img src="../../design-system/assets/photos/greenhouse-01.jpg" alt=""><img src="../../design-system/assets/photos/greenhouse-02.jpg" alt="">
       <img src="../../design-system/assets/photos/greenhouse-03.jpg" alt=""><img src="../../design-system/assets/photos/greenhouse-04.jpg" alt="">
     </div>
-    <div class="card card--cool flex-1 mt-3" style="padding:0.3in">
+    <div class="card card--cool mt-3" style="padding:0.32in 0.35in">
       <div class="fact">
         <div>
           <div class="kv"><b>[面積]</b><span class="body">約2,850㎡（ビニールハウス4棟）</span></div>
@@ -298,14 +292,13 @@
   <div class="title-block">
     <div class="eyebrow">Land / House</div>
     <h1 class="title">生花発送拠点</h1>
-    <div class="subtitle-en">Flower fulfillment centers — Kawasaki</div>
   </div>
   <div class="content">
-    <div class="row" style="height:2.75in; gap:0.2in">
+    <div class="row flex-1" style="gap:0.2in">
       <div class="frame flex-1"><img class="photo" src="../../design-system/assets/photos/flower-hub-01.jpg" alt=""></div>
       <div class="frame flex-1"><img class="photo" src="../../design-system/assets/photos/flower-hub-02.jpg" alt=""></div>
     </div>
-    <div class="card card--cool flex-1 mt-3" style="padding:0.3in">
+    <div class="card card--cool mt-3" style="padding:0.32in 0.35in">
       <div class="fact">
         <div>
           <div class="kv"><b>[面積]</b><span class="body">約560㎡（2拠点）</span></div>
@@ -325,7 +318,6 @@
   <div class="title-block">
     <div class="eyebrow">Platform Vision</div>
     <h1 class="title">花卉産業DXを軸としたプラットフォーム</h1>
-    <div class="subtitle-en">From two marketplaces to an industry platform</div>
   </div>
   <div class="content">
     <div class="card card--warm flex-1" style="padding:0.3in">
@@ -373,7 +365,6 @@
   <div class="title-block">
     <div class="eyebrow">Member Profile</div>
     <h1 class="title">代表取締役　髙木 弘貴</h1>
-    <div class="subtitle-en">Hiroki Takagi — Founder &amp; CEO</div>
   </div>
   <div class="content">
     <div class="ceo-grid">
@@ -398,7 +389,6 @@
   <div class="title-block">
     <div class="eyebrow">Team</div>
     <h1 class="title">メンバー紹介</h1>
-    <div class="subtitle-en">Core members</div>
   </div>
   <div class="content">
     <div class="members">
@@ -427,14 +417,13 @@
   <div class="title-block">
     <div class="eyebrow">Our Investor</div>
     <h1 class="title">支援いただいているVC／エンジェル投資家</h1>
-    <div class="subtitle-en">Investors</div>
   </div>
-  <div class="content">
-    <div class="card card--cool center" style="height:1.05in; display:flex; align-items:center; justify-content:center; gap:0.15in">
+  <div class="content center-v">
+    <div class="card card--cool center" style="height:0.9in; display:flex; align-items:center; justify-content:center; gap:0.15in">
       <span class="label ink" style="font-size:10pt">累計エクイティ調達額</span>
       <span class="num green bold" style="font-size:32pt; line-height:1">4.4</span><span class="body">億円</span><span class="label">（累計）</span>
     </div>
-    <div class="logos mt-3" style="height:0.8in">
+    <div class="logos mt-2" style="height:0.7in">
       <div><img src="../../design-system/assets/logos/investor-chiba-dojo.png" alt="千葉道場"></div>
       <div><img src="../../design-system/assets/logos/investor-new-commerce-ventures.png" alt="New Commerce Ventures"></div>
       <div><img src="../../design-system/assets/logos/investor-ffg.png" alt="FFG"></div>
@@ -444,7 +433,7 @@
     </div>
     <div class="label ink bold center mt-2" style="letter-spacing:2pt">giftee</div>
     <hr class="rule mt-2" style="margin-left:1in; margin-right:1in">
-    <div class="angels mt-3">
+    <div class="angels mt-2">
       <div><img src="../../design-system/assets/photos/angel-yanagisawa.jpg" alt=""><div class="label" style="font-size:8pt">ファンコミュニケーションズ（A8.net）</div><div class="label label--green" style="font-size:8pt">創業者・元代表取締役社長</div><div class="heading mt-1" style="font-size:12pt">柳澤 安慶</div></div>
       <div><img src="../../design-system/assets/photos/angel-sugita.jpg" alt=""><div class="label" style="font-size:8pt">JMDC</div><div class="label label--green" style="font-size:8pt">元COO</div><div class="heading mt-1" style="font-size:12pt">杉田 玲夢</div></div>
       <div><div class="ph">DNX</div><div class="label" style="font-size:8pt">DNX Ventures</div><div class="label label--green" style="font-size:8pt">Managing Partner / Head of Japan</div><div class="heading mt-1" style="font-size:12pt">倉林 陽</div></div>
@@ -458,9 +447,8 @@
   <div class="title-block">
     <div class="eyebrow">Company</div>
     <h1 class="title">会社概要</h1>
-    <div class="subtitle-en">Corporate profile</div>
   </div>
-  <div class="content" style="padding:0.1in 0.6in 0">
+  <div class="content center-v" style="padding:0 0.6in 0.3in">
     <table class="table table--lg">
       <tbody>
         <tr><th style="width:1.9in">会社名</th><td>株式会社Domuz</td></tr>

@@ -1,4 +1,4 @@
-/* GENERATED from design-system/tokens.json v1.1.0 (2026-09-16) — do not edit by hand. */
+/* GENERATED from design-system/tokens.json v1.2.0 (2026-09-16) — do not edit by hand. */
 :root {
   /* colors */
   --c-green-900: #002B2F;
@@ -48,14 +48,14 @@
   --s-chart-series-4: var(--c-sand-300);
   --s-accent-once: var(--c-mint);
   /* fonts */
-  --font-latin: "Century Gothic", "Futura", "Jost", "Poppins", "URW Gothic";
-  --font-display: "Europa", "Century Gothic", "Futura", "Jost", "Poppins", "URW Gothic";
+  --font-latin: "Europa", "Century Gothic", "Futura", "Jost", "URW Gothic";
+  --font-display: "Europa", "Europa", "Century Gothic", "Futura", "Jost", "URW Gothic";
   --font-ja: "Hiragino Sans", "Noto Sans JP", "Noto Sans CJK JP";
-  --font-body: "Century Gothic", "Futura", "Jost", "Poppins", "URW Gothic", "Hiragino Sans", "Noto Sans JP", "Noto Sans CJK JP", sans-serif;
+  --font-body: "Europa", "Century Gothic", "Futura", "Jost", "URW Gothic", "Hiragino Sans", "Noto Sans JP", "Noto Sans CJK JP", sans-serif;
   /* type scale (pt) */
   --t-cover-title-ja-size: 36pt;
   --t-cover-title-ja-weight: 700;
-  --t-cover-title-ja-spacing: 2pt;
+  --t-cover-title-ja-spacing: 3pt;
   --t-cover-title-ja-color: var(--c-green-800);
   --t-cover-title-en-size: 44pt;
   --t-cover-title-en-weight: 700;
@@ -71,7 +71,7 @@
   --t-section-ja-color: var(--c-green-200);
   --t-title-ja-size: 26pt;
   --t-title-ja-weight: 700;
-  --t-title-ja-spacing: 2pt;
+  --t-title-ja-spacing: 3pt;
   --t-title-ja-color: var(--c-green-800);
   --t-eyebrow-size: 9.5pt;
   --t-eyebrow-weight: 400;
@@ -83,18 +83,18 @@
   --t-subtitle-en-color: var(--c-green-500);
   --t-heading-ja-size: 14pt;
   --t-heading-ja-weight: 700;
-  --t-heading-ja-spacing: 1pt;
+  --t-heading-ja-spacing: 1.5pt;
   --t-heading-ja-color: var(--c-green-800);
   --t-body-size: 11pt;
   --t-body-weight: 400;
-  --t-body-spacing: 0pt;
+  --t-body-spacing: 0.7pt;
   --t-body-color: var(--c-ink-700);
-  --t-body-lh: 1.6;
+  --t-body-lh: 1.7;
   --t-body-small-size: 10pt;
   --t-body-small-weight: 400;
-  --t-body-small-spacing: 0pt;
+  --t-body-small-spacing: 0.6pt;
   --t-body-small-color: var(--c-ink-700);
-  --t-body-small-lh: 1.5;
+  --t-body-small-lh: 1.6;
   --t-kpi-size: 40pt;
   --t-kpi-weight: 700;
   --t-kpi-spacing: 0pt;
@@ -124,11 +124,12 @@
   --slide-h: 7.5in;
   --slide-w-wide: 13.333in;
   --l-margin: 0.55in;
-  --l-header-y: 0.3in;
-  --l-footer-y: 7.1in;
-  --l-title-top: 0.62in;
-  --l-content-top: 1.65in;
-  --l-content-bottom: 6.85in;
+  --l-chrome-inset: 0.55in;
+  --l-header-y: 0.62in;
+  --l-footer-y: 6.95in;
+  --l-title-top: 0.85in;
+  --l-content-top: 1.75in;
+  --l-content-bottom: 6.65in;
   --l-gutter: 0.25in;
   --l-card-padding: 0.25in;
   --l-min-gap: 0.2in;

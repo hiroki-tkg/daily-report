@@ -34,7 +34,7 @@ description: Domuz の統一デザインシステムで資料を作る／直す�
 |---|---|
 | 枚組 | `.deck` ＋ `.deck--sales` / `.deck--financial` / `.deck--internal`。`data-company` `data-confidential="false"` |
 | スライド | `.slide`（既定：タイトル帯＋コンテンツ）／ `.slide--cover`（ウォーターマーク表紙）／ `.slide--cover-minimal`（営業表紙）／ `.slide--section`／ `.slide--closing` |
-| タイトル | `.title-block > .eyebrow + h1.title + .subtitle-en`。バッジ横並びは `.title-row > .badge + h1.title + .subtitle-en` |
+| タイトル | `.title-block > .eyebrow + h1.title`（英語は eyebrow の1箇所だけ。`.subtitle-en` は使わない）。バッジ横並びは `.eyebrow` ＋ `.title-row > .badge + h1.title` |
 | 文字 | `.heading` `.heading--sm` `.body` `.body-sm` `.body-xs` `.label` `.label--green` `.caption > .en` `.num` `.green` `.coral` `.muted` `.bold` `.center` `.right` |
 | KPI | `.kpi > .kpi__label + .kpi__value(+ .unit) + .kpi__note`。`.kpi--coral` `.kpi--sm` `.kpi--lg` `.kpi--center` |
 | レイアウト | `.content`（コンテンツ領域）`.cols.cols-2/3/4` `.row` `.stack` `.spread` `.flex-1` `.mt-1..4` |
@@ -52,13 +52,15 @@ description: Domuz の統一デザインシステムで資料を作る／直す�
 
 ## 守ること（DESIGN_SYSTEM.md の要点）
 
-- 英数字 **Century Gothic**、日本語 **ヒラギノ角ゴ**（`--font-body` が自動でこの順に当てる）。游ゴシック禁止
-- 見出しは **日本語が主役・英語は小さく大文字・字間広め**。eyebrow は `- Label -` 形式（CSS が自動で付ける）
+- 英数字 **Europa**（無ければ Century Gothic）、日本語 **ヒラギノ角ゴ**（`--font-body` が自動でこの順に当てる）。游ゴシック禁止
+- 見出しは **日本語が主役・英語は小さく大文字・字間広め**。英語は **1タイトル1箇所（eyebrow）だけ**。eyebrow は `- Label -` 形式（CSS が自動で付ける）
+- 本文の字間は `.slide` が +0.7pt を継承する。詰めない
+- **空きを作らない**：中身が少ないページは `.content.center-v`、写真＋ファクトは写真側を `.flex-1` にしてボックスは中身の高さ＋上下中央（`.fact`）
 - 緑（`green-900`）を面積で使うのは区切り／クロージングだけ。地色は白、カードは生成り or グレー（同一スライド内で混ぜない）
 - 角丸：カード 10pt／写真 8pt／バッジ 4pt。影・グラデーション・端のカラーバー・タイトル下線は使わない
 - 強調色は 1 スライド 1 種類（営業＝coral、投資家＝green-800、社内＝hanaichi-yellow）
 - **文字だけのスライドを作らない**。写真は自社素材、人物は円形
-- 数字は `.num`（Century Gothic）・右揃え・単位は小さく。グラフは `data-chart`（画像禁止）
+- 数字は `.num`（Europa）・右揃え・単位は小さく。グラフは `data-chart`（画像禁止）
 - 同じレイアウトを 3 枚以上続けない
 - スライド内でしか使わない微調整は `index.html` の `<style>` に。再利用できるものは `deck.css` に昇格させる
 

@@ -95,7 +95,7 @@
     const y = (v) => pad.t + ih - (v / max) * ih;
     const slot = iw / n; const bw = Math.min(slot * 0.62, 28);
     const NS = 'http://www.w3.org/2000/svg';
-    const svg = document.createElementNS(NS, 'svg'); svg.setAttribute('viewBox', `0 0 ${W} ${H - legendH}`); svg.setAttribute('preserveAspectRatio', 'none');
+    const svg = document.createElementNS(NS, 'svg'); svg.setAttribute('viewBox', `0 0 ${W} ${H - legendH}`); svg.setAttribute('preserveAspectRatio', 'none'); svg.style.height = (H - legendH) + 'px';
     const g = (cls) => { const e = document.createElementNS(NS, 'g'); e.setAttribute('class', cls); svg.appendChild(e); return e; };
     const grid = g('grid'), axis = g('axis'), bars = g('bars'), lbl = g('labels');
     for (let v = 0; v <= max; v += step) {

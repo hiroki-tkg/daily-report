@@ -50,7 +50,7 @@ const L = tokens.layout;
 lines.push(`  --slide-w: ${L[L.default].width}in;`);
 lines.push(`  --slide-h: ${L[L.default].height}in;`);
 lines.push(`  --slide-w-wide: ${L.wide.width}in;`);
-for (const k of ['margin', 'header-y', 'footer-y', 'title-top', 'content-top', 'content-bottom', 'gutter', 'card-padding', 'min-gap']) lines.push(`  --l-${k}: ${L[k]}in;`);
+for (const k of ['margin', 'chrome-inset', 'header-y', 'footer-y', 'title-top', 'content-top', 'content-bottom', 'gutter', 'card-padding', 'min-gap']) lines.push(`  --l-${k}: ${L[k]}in;`);
 
 lines.push('  /* radius (pt) */');
 for (const [k, v] of Object.entries(tokens.radius)) lines.push(`  --r-${k}: ${v}pt;`);
