@@ -6,3 +6,6 @@ decks/*/output/contact-sheet.jpg
 decks/*/output/deck.pptx
 decks/*/output/deck.pdf
 .DS_Store
+decks/*/output/preview/
+decks/*/output/pdfcheck/
+.claude/skills/domuz-deck/templates/output/

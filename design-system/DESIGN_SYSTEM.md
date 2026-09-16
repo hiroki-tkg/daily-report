@@ -4,7 +4,8 @@
 > 新しく資料を作るとき・既存資料を直すときは、まずこのファイルを読む。
 > 機械可読な値は同じフォルダの [`tokens.json`](./tokens.json) にあり、この文書と常に同期させる。
 
-- バージョン: **1.0.0**（2026-09-16）
+- バージョン: **1.1.0**（2026-09-16）
+- 資料の正本は **HTML**（`decks/<name>/index.html`）。送付・ダウンロード時だけ PDF に書き出す（§9）
 - 元にした資料: 会社概要（2025-07）／LY様 フラワーギフト提案（2026-08）／Gipt様 提案（2026-08）／giftee様 ミモザ提案（2026-08）
 - ビジュアルの基準ブランド: **AND PLANTS**（ロゴ色 `#004347` を主色に採用）
 - 更新手順は最下部「[更新のしかた](#更新のしかた)」参照
@@ -284,33 +285,40 @@ A) eyebrow 型（中央または左）        B) 横並び型                   
 
 ```
 design-system/
-  DESIGN_SYSTEM.md   ← この文書（人が読む基準）
-  tokens.json        ← 色・文字・寸法の値（プログラムが読む基準）
-  assets/logos/      ← AND PLANTS・ハナイチ・投資家ロゴ
-  assets/photos/     ← 自社写真（商品・拠点・メンバー）
+  DESIGN_SYSTEM.md      ← この文書（人が読む基準）
+  tokens.json           ← 色・文字・寸法の値（プログラムが読む基準）
+  html/tokens.css       ← tokens.json から自動生成した CSS 変数（手で編集しない）
+  html/deck.css         ← スライド部品（カード・バッジ・KPI・表・写真・区切り…）
+  html/deck.js          ← ヘッダー／フッター／ページ番号の自動挿入、ページ送り、グラフ描画
+  assets/logos/         ← AND PLANTS・ハナイチ・投資家ロゴ
+  assets/photos/        ← 自社写真（商品・拠点・メンバー）
 .claude/skills/domuz-deck/
-  SKILL.md           ← Claude Code に資料を作らせるときの手順
-  lib/theme.js       ← tokens.json を読み、pptxgenjs でこのシステム通りの部品を描く
-  lib/postprocess.py ← 日本語フォント（ヒラギノ）の埋め込み・検証
-  templates/         ← スライド種類ごとのサンプルコード
+  SKILL.md              ← Claude Code に資料を作らせるときの手順・クラス早見表
+  scripts/export.js     ← HTML → 自己完結 HTML ＋ PDF ＋ プレビュー PNG
+  scripts/tokens-to-css.js
+  templates/            ← 営業提案の雛形（HTML）ほか
+  lib/                  ← PowerPoint が必要なときだけ使う pptx 生成（副経路）
 decks/
-  <資料名>/build.js  ← 各資料のソース。output/ に .pptx と PDF
+  <資料名>/index.html   ← 各資料の正本。output/ に送付用 HTML と PDF
 ```
 
-Claude Code で資料を作るとき：`/domuz-deck 会社概要をアップデートして` のように依頼すると、この文書と tokens.json を読み込んだ上で組んでくれる。手で PowerPoint／Keynote／Google スライドを作る場合もこの文書の値をそのまま使う。
+**運用**: 資料は HTML で作り、社内ではブラウザで見る（←→ でページ送り、`P` で全画面）。先方に送る／ダウンロードするときだけ `export.js` で PDF に書き出す。PowerPoint 形式は求められたときだけ生成する。
+
+Claude Code で資料を作るとき：`/domuz-deck 会社概要をアップデートして` のように依頼すると、この文書と tokens.json を読み込んだ上で組んでくれる。手で Keynote／Google スライドを作る場合もこの文書の値をそのまま使う。
 
 ---
 
 ## 更新のしかた
 
-1. `tokens.json` の値を変える（色・サイズ・角丸など）
+1. `tokens.json` の値を変える（色・サイズ・角丸など）→ `node .claude/skills/domuz-deck/scripts/tokens-to-css.js` で `html/tokens.css` を再生成
 2. この文書の該当表を同じ値に直し、先頭の **バージョン** と下の **変更履歴** を更新
-3. `lib/theme.js` は tokens.json を読むだけなので原則変更不要。部品の形（新しいスライド種類）を足すときだけ追記
-4. `decks/company-overview` を再ビルドして見た目を確認（`node build.js`）
+3. 部品の形（新しいスライド種類・カード種）を足すときは `html/deck.css` にクラスを追加し、SKILL.md の早見表にも追記
+4. `node .claude/skills/domuz-deck/scripts/export.js decks/company-overview` で再書き出しして見た目を確認
 5. コミット。Slack 等で「デザインシステム vX.Y.Z」を共有
 
 ### 変更履歴
 
 | 版 | 日付 | 内容 |
 |---|---|---|
+| 1.1.0 | 2026-09-16 | 資料の正本を HTML に変更（`html/deck.css` `deck.js` 追加、PDF 書き出し `export.js`）。pptx 生成は副経路に |
 | 1.0.0 | 2026-09-16 | 初版。4資料の実測値から共通化。AND PLANTS 緑を主色に、生成り／グレーの角丸カード、Century Gothic ＋ ヒラギノを標準化 |
