@@ -1,0 +1,8 @@
+node_modules/
+# render intermediates (keep the final .pptx and .pdf)
+decks/*/output/x/
+decks/*/output/slide-*.jpg
+decks/*/output/contact-sheet.jpg
+decks/*/output/deck.pptx
+decks/*/output/deck.pdf
+.DS_Store
