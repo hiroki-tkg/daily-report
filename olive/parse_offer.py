@@ -68,7 +68,8 @@ def parse_block(lines):
     head = [l.strip() for l in lines[: ship_idx - 1]]
     head = [l for l in head if not l.isdigit() and set(l) - set("■ ")]
     item = re.sub(r"^オススメ\s*", "", head[0]) if head else ""
-    variety = head[-1] if len(head) > 1 else ""
+    variety = head[1] if len(head) > 1 else ""
+    note = " ".join(head[2:])  # 「夜間冷房対応」などの付記
 
     om = ORIGIN_LINE.match(lines[ship_idx - 1].strip())
     shipper_raw, grade = (lines[ship_idx].split("\t") + [""])[:2]
@@ -93,6 +94,7 @@ def parse_block(lines):
     return {
         "品目": item,
         "品種": variety,
+        "付記": note,
         "産地": origin,
         "国産/外国産": classify_origin(origin),
         "出荷者(表記)": shipper_raw.strip(),
