@@ -187,6 +187,20 @@ def parse_html(html):
     return rows
 
 
+def load_rows(paths):
+    rows, seen = [], set()
+    for p in paths:
+        text = Path(p).read_text(encoding="utf-8")
+        parsed = parse_html(text) if str(p).endswith((".html", ".htm")) else parse_text(text)
+        for r in parsed:
+            key = r.get("上場No.")
+            if key and key in seen:
+                continue  # 無限スクロールのページ重なり
+            seen.add(key)
+            rows.append(r)
+    return rows
+
+
 def write_workbook(rows, path):
     wb = Workbook()
     base = Font(name="Arial", size=10)
@@ -264,16 +278,7 @@ def main():
     ap.add_argument("inputs", nargs="+")
     ap.add_argument("-o", "--output", default="olive_offer.xlsx")
     a = ap.parse_args()
-    rows, seen = [], set()
-    for p in a.inputs:
-        text = Path(p).read_text(encoding="utf-8")
-        parsed = parse_html(text) if p.endswith((".html", ".htm")) else parse_text(text)
-        for r in parsed:
-            key = r.get("上場No.")
-            if key and key in seen:
-                continue  # 無限スクロールのページ重なり
-            seen.add(key)
-            rows.append(r)
+    rows = load_rows(a.inputs)
     if not rows:
         sys.exit("商品行が見つかりませんでした")
     write_workbook(rows, a.output)

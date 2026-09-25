@@ -33,7 +33,14 @@ jobs:
         run: |
           d=$(ls html | head -1 | cut -d_ -f1)
           python parse_offer.py html/*.html -o "olive_${d}.xlsx"
+      - name: スプレッドシートに書き込み
+        working-directory: olive
+        env:
+          SHEET_WEBHOOK_URL: ${{ secrets.SHEET_WEBHOOK_URL }}
+          SHEET_TOKEN: ${{ secrets.SHEET_TOKEN }}
+        run: python export_sheet.py html/*.html
       - uses: actions/upload-artifact@v4
+        if: always()
         with:
           name: olive-offer
           path: olive/olive_*.xlsx
