@@ -73,6 +73,9 @@ def main():
     payload = build_payload(rows)
     r = requests.post(url, json={"token": token, **payload}, timeout=60)
     r.raise_for_status()
+    if "json" not in r.headers.get("Content-Type", ""):
+        sys.exit("スプレッドシートから想定外の応答（ログイン画面など）。"
+                 "ウェブアプリの「アクセスできるユーザー」が「全員」になっているか確認")
     res = r.json()
     if not res.get("ok"):
         sys.exit(f"スプレッドシートへの書き込みに失敗: {res}")
