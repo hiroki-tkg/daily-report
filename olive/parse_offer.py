@@ -1,7 +1,11 @@
-"""OLIVE+ の上場一覧（画面コピペのテキスト）を読み取り、明細と集計の Excel を作る。
+"""OLIVE+ の上場一覧を読み取り、明細と集計の Excel を作る。
+
+入力は2種類:
+  - 画面コピペのテキスト (.txt)
+  - a_offer/detail?page=N のレスポンス HTML (.html)
 
 使い方:
-    python parse_offer.py samples/*.txt -o out.xlsx
+    python parse_offer.py samples/*.html -o out.xlsx
 """
 import argparse
 import re
@@ -123,6 +127,66 @@ def parse_text(text):
     return rows
 
 
+ORG_ID = re.compile(r"^org_\d+_(\w+)$")
+ARRIVAL = re.compile(r"前入(\d{1,2}:\d{2})")
+
+
+def parse_html(html):
+    """detail?page=N の HTML から商品行を読む。
+
+    行ごとの hidden input (org_<上場No>_<項目>) を使う。前の行と同じ商品が続く行は
+    品目・産地などの input が前の行の上場No で出るので、ID ではなく行内の位置で拾う。
+    """
+    from bs4 import BeautifulSoup
+
+    soup = BeautifulSoup(html, "html.parser")
+    bdat = soup.find("input", id="bdat")
+    date = bdat["value"] if bdat else ""
+    rows = []
+    for tr in soup.select("tr.post"):
+        tds = tr.find_all("td", recursive=False)
+        if not tds:
+            continue  # 見出し行
+        f = {}
+        for inp in tr.find_all("input"):
+            m = ORG_ID.match(inp.get("id", ""))
+            if m and m.group(1) not in f:
+                f[m.group(1)] = nfkc(inp.get("value", "")).strip()
+        znsu = tr.find("input", id=re.compile(r"^org_\d+_znsu$"))
+        if not znsu:
+            continue
+        jono = re.search(r"\d+", znsu["id"]).group()
+        origin = f.get("kennm", "")
+        arrival = ARRIVAL.search(f.get("cyakuni", ""))
+        tiers = [f"{n}c ¥{p}" for n, p in re.findall(r"(\d+)=(\d+)#", f.get("optnstr", ""))]
+        item = f.get("hinnm", "")
+        if f.get("hinnm_sub"):
+            item += " / " + f["hinnm_sub"]
+        rows.append({
+            "売立日": date,
+            "No.": int(tds[1].get_text(strip=True) or 0),
+            "上場No.": jono,
+            "品目": item,
+            "品種": f.get("hisnm", ""),
+            "付記": f.get("biko", ""),
+            "種別": f.get("sbtnm", ""),
+            "産地": origin,
+            "国産/外国産": classify_origin(origin),
+            "荷主所在": f.get("kennm_org", ""),
+            "出荷者(表記)": f.get("sannm", ""),
+            "出荷者": normalize_shipper(f.get("sannm", "")),
+            "等階級": f.get("tkynm", "") + f.get("kkynm", ""),
+            "荷姿": f.get("honnm", ""),
+            "入数": int(f.get("irsu") or 0),
+            "単価": int(f.get("tank") or 0),
+            "複数口単価": " / ".join(tiers),
+            "申込可能口数": int(f.get("znsu") or 0),
+            "申込済口数": int(f.get("hksu") or 0),
+            "入荷": arrival.group(1) if arrival else "",
+        })
+    return rows
+
+
 def write_workbook(rows, path):
     wb = Workbook()
     base = Font(name="Arial", size=10)
@@ -200,9 +264,16 @@ def main():
     ap.add_argument("inputs", nargs="+")
     ap.add_argument("-o", "--output", default="olive_offer.xlsx")
     a = ap.parse_args()
-    rows = []
+    rows, seen = [], set()
     for p in a.inputs:
-        rows += parse_text(Path(p).read_text(encoding="utf-8"))
+        text = Path(p).read_text(encoding="utf-8")
+        parsed = parse_html(text) if p.endswith((".html", ".htm")) else parse_text(text)
+        for r in parsed:
+            key = r.get("上場No.")
+            if key and key in seen:
+                continue  # 無限スクロールのページ重なり
+            seen.add(key)
+            rows.append(r)
     if not rows:
         sys.exit("商品行が見つかりませんでした")
     write_workbook(rows, a.output)
