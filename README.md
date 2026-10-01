@@ -8,6 +8,7 @@
 | [`design-system/README.md`](design-system/README.md) | 配布パッケージの README（提案資料と発表スライドの違い、導入、Claude への頼み方） |
 | `design-system/guides/` | 提案資料の作り方／発表スライドの作り方（中身の組み立て方と表現の癖） |
 | `design-system/templates/` | 雛形 3 種（`proposal` / `presentation` / `report`）＋プレビュー PDF＋ `presentation_charts.py` |
+| `design-system/examples/` | **手本 PDF**。発表スライド＝`20261009_1Day合宿…`（小松作・32枚）、提案資料＝会社概要。トンマナはこの2本に揃える |
 | `design-system/assets/` | 過去資料から抽出したロゴ・写真（参考素材。正式ロゴ規定は本体 §11 で未定義） |
 | [`.claude/skills/domuz-deck/`](.claude/skills/domuz-deck/SKILL.md) | Claude Code 用スキル（手順）と `scripts/export.js`（単一 HTML 化・PDF・はみ出し検査） |
 | `decks/company-overview/` | 会社概要（提案資料型の実装見本）。`index.html` が正本、`output/` に送付用 HTML と PDF |

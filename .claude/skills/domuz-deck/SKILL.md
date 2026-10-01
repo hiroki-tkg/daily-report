@@ -17,6 +17,12 @@ description: Domuz デザインシステム v2（design-system/domuz_design_syst
 
 依頼に種別が無ければ、作り始める前に確認する（文字サイズ・1枚の情報量・フォントがすべて違うため）。
 
+## 0-1. 手本（完成形はここで確認する）
+
+- **発表スライド**: `design-system/examples/20261009_1Day合宿_AND PLANTS・AND FLOWER_第8期振り返りと第9期方針.pdf`（小松作・32枚・雛形とヘルパーだけで作られた本物。本体 §6-2 の P-1〜P-14 が全部出てくる）
+- **提案資料**: `design-system/examples/20261001_Domuz_会社概要（提案資料型）.pdf`（B-1/B-2/B-4/B-7/B-10/B-11/B-12/B-13/B-15/B-16/B-17/B-22）
+- 作り始める前にこの2本を開き、同じ種別の手本と「流儀が揃っているか」で判断する（色 HEX の一致ではなく、余白・字間・1枚の情報量・グラフの見せ方）
+
 ## 1. 手順
 
 1. **読む**（毎回）: `design-system/domuz_design_system.md` の §0・§1・§5・該当種別の §6・§7・§9・§10。種別のガイド（`guides/`）の該当章
@@ -50,6 +56,7 @@ description: Domuz デザインシステム v2（design-system/domuz_design_syst
 - `design-system/README.md` — 配布パッケージの README（導入手順・頼み方のコツ）
 - `design-system/guides/` — 提案資料の作り方／発表スライドの作り方
 - `design-system/templates/` — 3種の雛形＋プレビュー PDF＋グラフヘルパー
+- `design-system/examples/` — 手本 PDF（発表スライド＝1Day合宿 2026-10-09／提案資料＝会社概要）
 - `design-system/assets/` — 参考ロゴ・写真（過去資料から抽出）
 - `scripts/export.js` — 単一 HTML 化＋PDF＋PNG＋はみ出し検査（Playwright/Chromium。`npm i -g playwright`）
 - `decks/company-overview/index.html` — 提案資料型の実装見本（会社概要）
