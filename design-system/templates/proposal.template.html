@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<title>{{相手先}}様_{{テーマ}}_{{YYYYMMDD}}</title>
+<!--
+  Domuz デザインシステム v2 — 提案資料の雛形（他社・法人向け。発表スライドには使わない＝presentation.template.html）
+  ・4:3 1128×846px。1 <section class="page"> = 1スライド
+  ・色は必ず var(--…)。HEX直書き禁止。変数を増やす時は domuz_design_system.md §2 に追記
+  ・過去の提案資料（西武HD・Gipt・ギフティ・リビングハウス）で実際に使った型のみ10枚例示。グラフ・キーメッセージ等の未使用型は含めない。不要なスライドは削除して使う
+  ・PDF: Chrome --headless=new --print-to-pdf（domuz_design_system.md §8-2）
+-->
+<style>
+  /* ========== 0. トークン（Figma準拠・変更禁止） ========== */
+  :root {
+    --brand-primary: #004347;
+    --brand-secondary: #00D79C;
+    --brand-tertiary: #FFFF79;
+    --text-primary: #004347;
+    --text-secondary: #626262;
+    --text-strong: #E16464;
+    --text-alert: #CC0033;
+    --text-on-fill: #FFFFFF;
+    --text-muted: #999999;
+    --text-link: #008888;
+    --bg-white: #FFFFFF;
+    --bg-light: #F3F4F4;
+    --bg-gray: #CBD0D3;
+    --bg-dull-green: #7A9B9B;
+    --bg-moss: #004347;
+    --bg-cream: #F5F2E8;
+    --watermark: #ECEEEE;
+    --border-strong: #004347;
+    --border-light: #C9CFCF;
+    --border-focus: #00D79C;
+    --border-alert: #CC0033;
+    --font-en: "Century Gothic Pro", "century-gothic-pro", "Futura", "Avenir Next", sans-serif;
+    --font-ja: "Hiragino Sans", "Hiragino Kaku Gothic ProN", "Yu Gothic", "Noto Sans JP", sans-serif;
+    --radius: 8px;
+  }
+
+  /* ========== 1. ベース ========== */
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  @page { size: 1128px 846px; margin: 0; }
+  html, body { font-family: var(--font-ja); color: var(--text-primary); background: var(--bg-gray); font-weight: 400; }
+  @media print { html, body { background: var(--bg-white); } }
+  .en { font-family: var(--font-en); }
+  .strong { color: var(--text-strong); font-weight: 700; }
+  .alert { color: var(--text-alert); }
+  .sub { color: var(--text-secondary); }
+  .r { text-align: right; } .c { text-align: center; }
+
+  .page {
+    width: 1128px; height: 846px; position: relative; overflow: hidden;
+    background: var(--bg-white); padding: 48px 56px 40px;
+    margin: 0 auto 24px; page-break-after: always; break-after: page;
+  }
+  @media print { .page { margin: 0; } .page:last-child { page-break-after: auto; } }
+
+  /* ヘッダ・フッタ（章扉には置かない） */
+  .hd { position: absolute; top: 16px; left: 56px; right: 56px; display: flex; justify-content: space-between;
+        font-family: var(--font-en); font-size: 9px; color: var(--text-muted); letter-spacing: 0.08em; }
+  .ft { position: absolute; bottom: 14px; left: 56px; right: 56px; display: flex; justify-content: space-between;
+        font-family: var(--font-en); font-size: 8.5px; color: var(--text-muted); letter-spacing: 0.05em; }
+
+  /* 見出し */
+  .sec-label { font-family: var(--font-en); font-size: 11px; color: var(--text-secondary); letter-spacing: 0.3em; margin-bottom: 8px; }
+  h2.page-title { font-size: 28px; font-weight: 600; letter-spacing: 0.06em; margin-bottom: 8px; }
+  .page-title-sub { font-size: 13px; color: var(--text-secondary); margin-bottom: 24px; line-height: 1.7; }
+  h3 { font-size: 15px; font-weight: 600; }
+  p, li { font-size: 13px; line-height: 1.8; }
+  .note { font-size: 10.5px; color: var(--text-secondary); line-height: 1.7; margin-top: 12px; }
+
+  /* ========== 2. B-1 表紙 ========== */
+  .cover { display: flex; flex-direction: column; justify-content: center; align-items: flex-start; padding: 0 84px; }
+  .cover .watermark { position: absolute; right: -30px; bottom: -55px; font-family: var(--font-en); font-size: 240px; font-weight: 700; color: var(--watermark); letter-spacing: -0.02em; z-index: 0; }
+  .cover > * { z-index: 1; }
+  .cover-eyebrow { font-family: var(--font-en); font-size: 14px; letter-spacing: 0.35em; color: var(--text-secondary); margin-bottom: 28px; }
+  .cover h1 { font-size: 42px; font-weight: 700; line-height: 1.5; letter-spacing: 0.05em; margin-bottom: 20px; }
+  .cover-en { font-family: var(--font-en); font-size: 15px; letter-spacing: 0.45em; margin-bottom: 40px; }
+  .cover-rule { width: 64px; height: 5px; background: var(--brand-secondary); margin-bottom: 40px; }
+  .cover-meta { font-size: 13.5px; color: var(--text-secondary); line-height: 2.1; }
+  .cover-brand { margin-top: 40px; font-size: 17px; font-weight: 600; letter-spacing: 0.12em; }
+
+  /* ========== 3. B-2 章扉 ========== */
+  .divider { background: var(--bg-moss); color: var(--text-on-fill); display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; }
+  .divider .num { position: absolute; top: 48px; left: 56px; font-family: var(--font-en); font-size: 56px; font-weight: 700; color: transparent; -webkit-text-stroke: 1px rgba(255,255,255,0.7); letter-spacing: 0.05em; }
+  .divider .title-en { font-family: var(--font-en); font-size: 48px; letter-spacing: 0.3em; text-transform: uppercase; margin-bottom: 24px; }
+  .divider .title-ja { font-size: 16px; letter-spacing: 0.2em; opacity: 0.9; }
+  .divider .x { font-family: var(--font-en); font-size: 28px; margin: 0 24px; opacity: 0.8; }
+
+  /* ========== 5. B-4 標準コンテンツ（1/2/3 段組み） ========== */
+  .cols { display: flex; gap: 24px; }
+  .col { flex: 1; min-width: 0; }
+  .col .idx { font-family: var(--font-en); font-size: 40px; font-weight: 700; line-height: 1; margin-bottom: 12px; color: var(--bg-dull-green); }
+  .col h3 { margin-bottom: 8px; padding-bottom: 8px; border-bottom: 1px solid var(--border-light); }
+
+  /* ========== 6. B-5 2カラム比較 / B-6 4カード / B-23 特長カード ========== */
+  .cards { display: flex; gap: 16px; }
+  .cards.grid2 { display: grid; grid-template-columns: 1fr 1fr; }
+  .card { flex: 1; min-width: 0; background: var(--bg-light); border-radius: var(--radius); padding: 20px 24px; }
+  .card.cream { background: var(--bg-cream); }
+  .card.outline { background: var(--bg-white); border: 1.5px solid var(--border-strong); }
+  .card h3 { font-size: 15px; margin-bottom: 10px; }
+  .card p { font-size: 12.5px; line-height: 1.8; }
+  .card .ph { width: 100%; aspect-ratio: 3 / 4; object-fit: contain; border-radius: 6px; background: var(--bg-white); display: block; margin-bottom: 12px; }
+
+  /* B-23 特長カード（クリーム地・実績: Gipt） */
+  .str-cards { display: flex; gap: 20px; }
+  .str-card { flex: 1; min-width: 0; background: var(--bg-cream); border-radius: 12px; padding: 32px 26px; }
+  .str-card .s-idx { font-family: var(--font-en); font-size: 13px; letter-spacing: 0.2em; color: var(--text-secondary); margin-bottom: 12px; }
+  .str-card h3 { font-size: 16px; margin-bottom: 12px; line-height: 1.5; }
+  .str-card p { font-size: 12.5px; line-height: 1.85; }
+  .str-card img { width: 100%; aspect-ratio: 4 / 3; object-fit: cover; border-radius: 6px; margin-top: 16px; display: block; background: var(--bg-white); }
+
+  /* 箇条書き（丸はLight Green） */
+  ul.dots { list-style: none; }
+  ul.dots li { padding-left: 18px; position: relative; margin-bottom: 6px; }
+  ul.dots li::before { content: ""; position: absolute; left: 0; top: 9px; width: 8px; height: 8px; border-radius: 50%; background: var(--brand-secondary); }
+
+  /* ========== 7. B-7 数値ハイライト / B-14 KPI ========== */
+  .kpis { display: flex; gap: 16px; }
+  .kpi { flex: 1; background: var(--bg-light); border-radius: var(--radius); padding: 28px 24px 24px; text-align: center; }
+  .kpi .label { font-size: 13px; font-weight: 600; margin-bottom: 8px; }
+  .kpi .num { font-family: var(--font-en); font-size: 64px; font-weight: 700; line-height: 1.1; }
+  .kpi .num small { font-size: 20px; font-weight: 600; margin-left: 4px; }
+  .kpi .num.strong { color: var(--text-strong); }
+  .kpi .desc { font-size: 11px; color: var(--text-secondary); margin-top: 8px; line-height: 1.6; }
+
+  /* ========== 8. B-9 データ表 / B-25 条件表 ========== */
+  table { width: 100%; border-collapse: collapse; }
+  table th, table td { border: 1px solid var(--border-light); padding: 8px 14px; font-size: 12px; text-align: left; vertical-align: middle; line-height: 1.6; }
+  table thead th { background: var(--brand-primary); color: var(--text-on-fill); font-weight: 600; }
+  table.yellow thead th { background: var(--brand-tertiary); color: var(--text-primary); }
+  table td.rowhead, table th.rowhead { background: var(--bg-light); font-weight: 600; width: 170px; }
+  table td.num { text-align: right; font-family: var(--font-en); }
+  table tr.total td { background: var(--bg-light); font-weight: 700; }
+  table td .big { font-size: 16px; font-weight: 700; }
+  table td .sub { font-size: 10.5px; color: var(--text-secondary); display: block; margin-top: 2px; }
+  table s { color: var(--text-secondary); margin-right: 6px; }
+
+  /* ========== 9. B-10 プロセスフロー ========== */
+  .flow { display: flex; align-items: stretch; }
+  .flow-step { flex: 1; background: var(--bg-light); border-radius: var(--radius); padding: 16px 18px; position: relative; margin-right: 32px; }
+  .flow-step:last-child { margin-right: 0; }
+  .flow-step::after { content: "▶"; position: absolute; right: -24px; top: 50%; transform: translateY(-50%); color: var(--brand-secondary); font-size: 14px; }
+  .flow-step:last-child::after { content: none; }
+  .flow-step .f-title { font-size: 13.5px; font-weight: 600; margin-bottom: 8px; }
+  .flow-step .f-idx { font-family: var(--font-en); font-size: 11px; letter-spacing: 0.2em; color: var(--text-secondary); margin-bottom: 4px; }
+  .flow-step p { font-size: 11.5px; line-height: 1.75; }
+
+  /* ========== 10. B-24 タイムライン ========== */
+  .timeline { display: flex; }
+  .tl-item { flex: 1; position: relative; padding-top: 28px; margin-right: 24px; }
+  .tl-item:last-child { margin-right: 0; }
+  .tl-item::before { content: ""; position: absolute; top: 8px; left: 0; width: 16px; height: 16px; border-radius: 50%; background: var(--brand-primary); }
+  .tl-item::after { content: ""; position: absolute; top: 15px; left: 24px; right: -16px; height: 2px; background: var(--border-light); }
+  .tl-item:last-child::after { content: none; }
+  .tl-item.goal::before { background: var(--brand-secondary); }
+  .tl-date { font-family: var(--font-en); font-size: 17px; font-weight: 700; margin-bottom: 4px; }
+  .tl-label { font-size: 12px; line-height: 1.6; }
+
+  /* ========== 11. B-8 写真ギャラリー ========== */
+  .gallery { display: flex; gap: 16px; }
+  .gallery figure { flex: 1; min-width: 0; text-align: center; }
+  .gallery img { width: 100%; aspect-ratio: 3 / 4; object-fit: contain; background: var(--bg-light); border-radius: 6px; display: block; }
+  .gallery figcaption { font-size: 11.5px; margin-top: 8px; line-height: 1.6; }
+  .gallery figcaption b { display: block; font-size: 13px; }
+  .badge { display: inline-block; background: var(--brand-primary); color: var(--text-on-fill); font-size: 10px; font-weight: 600; letter-spacing: 0.05em; padding: 3px 10px; border-radius: 3px; }
+  .badge.alt { background: var(--bg-dull-green); }
+
+  /* ========== 13. B-22 会社概要 ========== */
+  .company { display: flex; gap: 40px; align-items: flex-start; }
+  .company-left { flex: 1.1; } .company-right { flex: 1; }
+  .company p { font-size: 12px; line-height: 1.95; margin-bottom: 14px; }
+  table.corp th, table.corp td { border: none; border-bottom: 1px solid var(--border-light); padding: 9px 6px; font-size: 11.5px; }
+  table.corp th { width: 110px; color: var(--text-secondary); font-weight: 500; }
+</style>
+</head>
+<body>
+
+<!-- ===== B-1 表紙 ===== -->
+<section class="page cover">
+  <div class="watermark">Domuz</div>
+  <div class="cover-eyebrow">PROPOSAL</div>
+  <h1>{{相手先}}様<br>{{提案テーマ}}のご提案</h1>
+  <div class="cover-en">{{ENGLISH SUBTITLE IN CAPS}}</div>
+  <div class="cover-rule"></div>
+  <div class="cover-meta">{{YYYY年M月D日}}<br>株式会社Domuz　{{担当者名}}</div>
+  <div class="cover-brand en">AND PLANTS</div>
+  <div class="ft"><span>Copyright (C) Domuz inc, All Rights Reserved.</span><span>1</span></div>
+</section>
+
+<!-- ===== B-2 章扉（パターンA: 英タイトル＋和文サブ） ===== -->
+<section class="page divider">
+  <div class="num">01</div>
+  <div class="title-en">{{Chapter Title}}</div>
+  <div class="title-ja">{{章の主旨を和文で一行}}</div>
+</section>
+
+<!-- ===== B-4 標準コンテンツ（1/2/3） ===== -->
+<section class="page">
+  <div class="hd"><span>Domuz inc.</span><span>Confidential</span></div>
+  <div class="sec-label">- OUR SERVICE -</div>
+  <h2 class="page-title">{{スライド見出し}}</h2>
+  <p class="page-title-sub">{{見出しを補足する一文。何を言いたいスライドかを先に書く}}</p>
+  <div class="cols">
+    <div class="col"><div class="idx">1</div><h3>{{項目名}}</h3><p>{{本文3〜4行。}}</p></div>
+    <div class="col"><div class="idx">2</div><h3>{{項目名}}</h3><p>{{本文3〜4行。}}</p></div>
+    <div class="col"><div class="idx">3</div><h3>{{項目名}}</h3><p>{{本文3〜4行。}}</p></div>
+  </div>
+  <div class="ft"><span>Copyright (C) Domuz inc, All Rights Reserved.</span><span>3</span></div>
+</section>
+
+<!-- ===== B-7 数値ハイライト + B-6 カード ===== -->
+<section class="page">
+  <div class="hd"><span>Domuz inc.</span><span>Confidential</span></div>
+  <div class="sec-label">- SUMMARY -</div>
+  <h2 class="page-title">{{結論を数字で}}</h2>
+  <p class="page-title-sub">{{数字の読み方を一文で}}</p>
+  <div class="kpis" style="margin-bottom: 24px;">
+    <div class="kpi"><div class="label">{{指標名}}</div><div class="num strong">{{4.4}}<small>億円</small></div><div class="desc">{{注記}}</div></div>
+    <div class="kpi"><div class="label">{{指標名}}</div><div class="num">{{3.8}}<small>%</small></div><div class="desc">{{注記}}</div></div>
+    <div class="kpi"><div class="label">{{指標名}}</div><div class="num">{{418}}<small>億円</small></div><div class="desc">{{注記}}</div></div>
+  </div>
+  <div class="cards">
+    <div class="card"><h3>{{メリット1}}</h3><p>{{本文}}</p></div>
+    <div class="card"><h3>{{メリット2}}</h3><p>{{本文}}</p></div>
+    <div class="card outline"><h3>{{条件・注意}}</h3><ul class="dots"><li>{{項目}}</li><li>{{項目}}</li></ul></div>
+  </div>
+  <div class="ft"><span>Copyright (C) Domuz inc, All Rights Reserved.</span><span>4</span></div>
+</section>
+
+<!-- ===== B-9 データ表（料金表・税抜表記必須） ===== -->
+<section class="page">
+  <div class="hd"><span>Domuz inc.</span><span>Confidential</span></div>
+  <div class="sec-label">- PRICE -</div>
+  <h2 class="page-title">{{料金イメージ}}</h2>
+  <p class="page-title-sub">{{前提条件}}</p>
+  <table>
+    <thead><tr><th>{{プラン}}</th><th>{{内容}}</th><th class="r">{{月額}}</th><th class="r">{{初期費用}}</th></tr></thead>
+    <tbody>
+      <tr><td class="rowhead">{{A}}</td><td>{{説明}}</td><td class="num">¥{{00,000}}</td><td class="num">¥{{00,000}}</td></tr>
+      <tr><td class="rowhead">{{B}}</td><td>{{説明}}</td><td class="num"><s>¥112,500</s><span class="strong">¥101,250</span></td><td class="num">¥{{00,000}}</td></tr>
+      <tr class="total"><td colspan="2">合計</td><td class="num">¥{{000,000}}</td><td class="num">¥{{000,000}}</td></tr>
+    </tbody>
+  </table>
+  <p class="note r">※ 表示価格はすべて税抜です</p>
+  <div class="ft"><span>Copyright (C) Domuz inc, All Rights Reserved.</span><span>5</span></div>
+</section>
+
+<!-- ===== B-10 フロー + B-24 タイムライン ===== -->
+<section class="page">
+  <div class="hd"><span>Domuz inc.</span><span>Confidential</span></div>
+  <div class="sec-label">- SCHEME -</div>
+  <h2 class="page-title">{{進め方}}</h2>
+  <p class="page-title-sub">{{一文}}</p>
+  <div class="flow" style="margin-bottom: 40px;">
+    <div class="flow-step"><div class="f-idx">STEP 01</div><div class="f-title">{{ヒアリング}}</div><p>{{説明}}</p></div>
+    <div class="flow-step"><div class="f-idx">STEP 02</div><div class="f-title">{{ご提案}}</div><p>{{説明}}</p></div>
+    <div class="flow-step"><div class="f-idx">STEP 03</div><div class="f-title">{{納品・設置}}</div><p>{{説明}}</p></div>
+    <div class="flow-step"><div class="f-idx">STEP 04</div><div class="f-title">{{メンテナンス}}</div><p>{{説明}}</p></div>
+  </div>
+  <div class="timeline">
+    <div class="tl-item"><div class="tl-date">{{9/1}}</div><div class="tl-label">{{条件確定}}</div></div>
+    <div class="tl-item"><div class="tl-date">{{9/8}}</div><div class="tl-label">{{発注}}</div></div>
+    <div class="tl-item goal"><div class="tl-date">{{9/17}}</div><div class="tl-label">{{オープン}}</div></div>
+  </div>
+  <div class="ft"><span>Copyright (C) Domuz inc, All Rights Reserved.</span><span>6</span></div>
+</section>
+
+<!-- ===== B-8 写真ギャラリー（画像は data: URI で埋め込む） ===== -->
+<section class="page">
+  <div class="hd"><span>Domuz inc.</span><span>Confidential</span></div>
+  <div class="sec-label">- LINEUP -</div>
+  <h2 class="page-title">{{ご提案する植物}}</h2>
+  <p class="page-title-sub">{{一文}}</p>
+  <div class="gallery">
+    <figure><img src="{{IMG:01}}" alt=""><figcaption><span class="badge">XL</span><b>{{品種名}}</b>{{H180cm・10号}}</figcaption></figure>
+    <figure><img src="{{IMG:02}}" alt=""><figcaption><span class="badge">L</span><b>{{品種名}}</b>{{H150cm・8号}}</figcaption></figure>
+    <figure><img src="{{IMG:03}}" alt=""><figcaption><span class="badge alt">M</span><b>{{品種名}}</b>{{H100cm・7号}}</figcaption></figure>
+    <figure><img src="{{IMG:04}}" alt=""><figcaption><span class="badge alt">S</span><b>{{品種名}}</b>{{H60cm・5号}}</figcaption></figure>
+  </div>
+  <div class="ft"><span>Copyright (C) Domuz inc, All Rights Reserved.</span><span>7</span></div>
+</section>
+
+<!-- ===== B-25 条件表（契約条件・実績: 西武HD） ===== -->
+<section class="page">
+  <div class="hd"><span>Domuz inc.</span><span>Confidential</span></div>
+  <div class="sec-label">- TERMS -</div>
+  <h2 class="page-title">{{ご契約条件}}</h2>
+  <p class="page-title-sub">{{一文}}</p>
+  <table>
+    <tr><td class="rowhead">{{ご提供方式}}</td><td><span class="big">{{リース}}</span><span class="sub">{{補足}}</span></td></tr>
+    <tr><td class="rowhead">{{月額リース料}}</td><td><span class="big">¥{{00,000}}<small>（税抜）</small></span><span class="sub">{{内訳・含まれるもの}}</span></td></tr>
+    <tr><td class="rowhead">{{契約期間}}</td><td><span class="big">{{2年}}</span><span class="sub">{{更新条件}}</span></td></tr>
+    <tr><td class="rowhead">{{メンテナンス}}</td><td>{{頻度・内容}}</td></tr>
+    <tr><td class="rowhead">{{枯れ保証}}</td><td>{{条件}}</td></tr>
+  </table>
+  <p class="note">{{※ 前提条件・除外事項}}</p>
+  <div class="ft"><span>Copyright (C) Domuz inc, All Rights Reserved.</span><span>8</span></div>
+</section>
+
+<!-- ===== B-23 特長カード（弊社の強み・実績: Gipt） ===== -->
+<section class="page">
+  <div class="hd"><span>Domuz inc.</span><span>Confidential</span></div>
+  <div class="sec-label">- WHY AND PLANTS -</div>
+  <h2 class="page-title">{{AND PLANTSが選ばれる理由}}</h2>
+  <p class="page-title-sub">{{一文}}</p>
+  <div class="str-cards">
+    <div class="str-card"><div class="s-idx">01</div><h3>{{観葉植物とお花のプロが提案}}</h3><p>{{本文3〜4行}}</p><img src="{{IMG:s1}}" alt=""></div>
+    <div class="str-card"><div class="s-idx">02</div><h3>{{ECで培った品質管理・物流}}</h3><p>{{本文3〜4行}}</p><img src="{{IMG:s2}}" alt=""></div>
+    <div class="str-card"><div class="s-idx">03</div><h3>{{導入後のサポート}}</h3><p>{{本文3〜4行}}</p><img src="{{IMG:s3}}" alt=""></div>
+  </div>
+  <div class="ft"><span>Copyright (C) Domuz inc, All Rights Reserved.</span><span>9</span></div>
+</section>
+
+<!-- ===== B-22 会社概要（提案資料は必須。数値は最新確認） ===== -->
+<section class="page">
+  <div class="hd"><span>Domuz inc.</span><span>Confidential</span></div>
+  <div class="sec-label">- COMPANY -</div>
+  <h2 class="page-title">会社概要</h2>
+  <p class="page-title-sub">AND PLANTS ／ 株式会社Domuz</p>
+  <div class="company">
+    <div class="company-left">
+      <p>観葉植物・お花のオンラインストア「AND PLANTS」を運営し、パーソナル診断による植物選びと、育てやすさに寄り添ったプロダクト・サポートをご提供しています。</p>
+      <p>ECで培った品質管理・物流ノウハウを活かし、法人・店舗さまへのグリーン導入（リース・レンタル・買取）、定期メンテナンス、空間コーディネートまで一貫して対応しています。</p>
+    </div>
+    <div class="company-right">
+      <table class="corp">
+        <tr><th>会社名</th><td>株式会社Domuz</td></tr>
+        <tr><th>所在地</th><td>神奈川県川崎市中原区小杉御殿町2-69-6 2F</td></tr>
+        <tr><th>代表取締役</th><td>髙木 弘貴</td></tr>
+        <tr><th>創業</th><td>2018年10月（花卉産業DX事業の開始は2021年5月）</td></tr>
+        <tr><th>資本金</th><td>1億円</td></tr>
+        <tr><th>従業員数</th><td>65名（社員20名、アルバイト43名）※2025年10月現在</td></tr>
+        <tr><th>主要取引銀行</th><td>みずほ銀行</td></tr>
+      </table>
+    </div>
+  </div>
+  <div class="ft"><span>Copyright (C) Domuz inc, All Rights Reserved.</span><span>10</span></div>
+</section>
+
+</body>
+</html>

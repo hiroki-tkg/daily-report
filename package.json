@@ -3,8 +3,7 @@
   "version": "1.0.0",
   "description": "Domuz design system, deck skill and generated decks",
   "scripts": {
-    "build:company-overview": "node decks/company-overview/build.js",
-    "template:sales": "node .claude/skills/domuz-deck/templates/sales-proposal.js"
+    "export:company-overview": "node .claude/skills/domuz-deck/scripts/export.js decks/company-overview --name \"20261001_Domuz_会社概要\""
   },
   "repository": {
     "type": "git",
@@ -17,9 +16,6 @@
     "url": "https://github.com/hiroki-tkg/daily-report/issues"
   },
   "homepage": "https://github.com/hiroki-tkg/daily-report#readme",
-  "dependencies": {
-    "pptxgenjs": "^4.0.1",
-    "sharp": "^0.35.4"
-  },
+  "dependencies": {},
   "private": true
 }

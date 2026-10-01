@@ -1,457 +1,567 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Domuz 会社概要 — Company Profile</title>
+<meta charset="UTF-8">
+<title>20261001_Domuz_会社概要</title>
 <!--
-  Domuz 会社概要 / Company Profile deck (HTML is the source of truth; export PDF with
-  node .claude/skills/domuz-deck/scripts/export.js decks/company-overview --name "Domuz_会社概要_2026-09")
-  Design system: design-system/DESIGN_SYSTEM.md · components: design-system/html/deck.css
-  Content: 会社概要 2025-07 + 2026-08 proposals. 売上グラフの一部四半期は元グラフからの読み取り概算 → 実数に差し替えること。
+  Domuz 会社概要 — 提案資料型（design-system/templates/proposal.template.html 起点）
+  ・4:3 1128×846px。1 <section class="page"> = 1スライド。色は var(--…) のみ
+  ・型: B-1 表紙 / B-2 章扉 / B-4 段組み / B-7 数値 / B-10 フロー / B-11 プロフィール / B-12 メンバー / B-13 ロゴウォール / B-15 拠点写真 / B-16 ビジネスモデル図 / B-17 グラフ / B-22 会社概要
+  ・書き出し: node .claude/skills/domuz-deck/scripts/export.js decks/company-overview --name "20261001_Domuz_会社概要"
+  ・売上グラフの一部四半期は元資料（2025-07）のグラフからの読み取り概算 → 実数に差し替えること
 -->
-<link rel="stylesheet" href="../../design-system/html/deck.css">
 <style>
-  /* deck-local tweaks only; anything reusable belongs in deck.css */
-  .about-grid { display: grid; grid-template-columns: 4.35in 1fr; gap: 0.3in; height: 2.62in; }
-  .kpi-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--l-gutter); height: 1.75in; margin-top: 0.4in; }
-  .service .frame { height: 1.55in; }
-  .service .logo-box { height: 1.55in; background: var(--c-paper); border-radius: 8pt; }
-  .product-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.08in; }
-  .product-grid img { width: 100%; aspect-ratio: 0.92; object-fit: cover; border-radius: 6pt; }
-  .flow { display: grid; grid-template-columns: 1.35in 1fr 1.35in 1fr 1.35in 1fr 1.35in 1fr 1.35in; align-items: start; gap: 0; }
-  .flow .box { height: 0.5in; }
-  .flow .arrow { margin: 0.25in 0.06in 0; align-self: start; }
-  .flow-logo { height: 0.55in; margin-top: 0.08in; display: flex; align-items: center; justify-content: center; background: var(--c-paper); border-radius: 6pt; box-shadow: inset 0 0 0 var(--stroke-rule) var(--c-coral); }
-  .flow-logo img { height: 0.4in; object-fit: contain; }
-  .hub-photos { display: grid; grid-template-columns: 4.4in 1fr 1fr; grid-template-rows: 1fr 1fr; gap: 0.15in; flex: 1; min-height: 0; }
-  .hub-photos .main { grid-row: 1 / span 2; }
-  .hub-photos img { width: 100%; height: 100%; object-fit: cover; border-radius: var(--r-photo); }
-  .fact { display: grid; grid-template-columns: 4.1in 1fr; gap: 0.3in; align-items: center; }
-  .fact .kv { display: flex; gap: 0.12in; align-items: baseline; }
-  .fact .kv + .kv { margin-top: 0.18in; }
-  .fact .kv b { color: var(--c-green-800); white-space: nowrap; }
-  .platform { display: grid; grid-template-columns: 2.2in 1fr 2.3in 1fr 2.2in; grid-template-rows: repeat(3, 1fr); gap: 0.3in 0.1in; height: 100%; }
-  .platform .core { grid-row: span 1; }
-  .platform .center { grid-column: 3; grid-row: 1 / span 3; display: flex; flex-direction: column; justify-content: space-between; }
-  .platform .sat { padding: 0.15in 0.18in; }
-  .platform .sat .en { font-family: var(--font-latin); font-size: 7.5pt; letter-spacing: 3pt; text-transform: uppercase; color: var(--c-green-500); }
-  .platform .sat .heading { margin: 0.06in 0 0.08in; }
-  .platform .link { display: flex; align-items: center; }
-  .core-card { background: var(--c-paper); border-radius: 8pt; box-shadow: inset 0 0 0 var(--stroke-rule) var(--c-green-800); padding: 0.15in; text-align: center; }
-  .core-card .spread { margin-bottom: 0.14in; }
-  .core-card img { height: 0.45in; object-fit: contain; margin: 0 auto 0.1in; }
-  .v-link { flex: 1; display: flex; align-items: center; justify-content: center; gap: 0.2in; padding: 0.15in 0; }
-  .v-arrows { position: relative; width: 0.5in; align-self: stretch; }
-  .v-arrows i { position: absolute; top: 0; bottom: 0; width: 0; border-left: 1.5pt solid var(--c-ink-900); }
-  .v-arrows i:first-child { left: 0.12in; } .v-arrows i:first-child::before { content: ""; position: absolute; top: -1px; left: -5px; border: 4.5px solid transparent; border-bottom: 6px solid var(--c-ink-900); border-top: 0; }
-  .v-arrows i:last-child { left: 0.34in; } .v-arrows i:last-child::after { content: ""; position: absolute; bottom: -1px; left: -5px; border: 4.5px solid transparent; border-top: 6px solid var(--c-ink-900); border-bottom: 0; }
-  .ceo-grid { display: grid; grid-template-columns: 2.9in 1fr; gap: 0.3in; height: 2.9in; }
-  .steps { display: grid; grid-template-columns: 1.45in 1fr 1.45in 1fr 1.45in 1fr 1.45in; align-items: center; margin-top: 0.45in; }
-  .steps .circle-step { width: 1.45in; }
-  .members { display: grid; grid-template-columns: 1fr 1fr; grid-template-rows: 1fr 1fr; gap: 0.3in; height: 100%; }
-  .member { display: grid; grid-template-columns: 1.35in 1fr; gap: 0.25in; align-items: center; }
-  .member img { width: 1.35in; height: 1.35in; }
-  .angels { display: grid; grid-template-columns: repeat(3, 2.6in); justify-content: space-between; text-align: center; }
-  .angels img, .angels .ph { width: 1.0in; height: 1.0in; margin: 0 auto 0.1in; border-radius: 50%; object-fit: cover; }
-  .angels .ph { background: var(--c-gray-100); display: flex; align-items: center; justify-content: center; font-family: var(--font-latin); font-weight: 700; color: var(--c-green-800); }
-  .growth { display: grid; grid-template-columns: 1fr 2.05in; gap: 0.25in; height: 100%; }
-  .growth .chart { height: 100%; }
+  /* ========== 0. トークン（Figma準拠・変更禁止） ========== */
+  :root {
+    --brand-primary: #004347;
+    --brand-secondary: #00D79C;
+    --brand-tertiary: #FFFF79;
+    --text-primary: #004347;
+    --text-secondary: #626262;
+    --text-strong: #E16464;
+    --text-alert: #CC0033;
+    --text-on-fill: #FFFFFF;
+    --text-muted: #999999;
+    --text-link: #008888;
+    --bg-white: #FFFFFF;
+    --bg-light: #F3F4F4;
+    --bg-gray: #CBD0D3;
+    --bg-dull-green: #7A9B9B;
+    --bg-moss: #004347;
+    --bg-cream: #F5F2E8;
+    --watermark: #ECEEEE;
+    --border-strong: #004347;
+    --border-light: #C9CFCF;
+    --border-focus: #00D79C;
+    --border-alert: #CC0033;
+    --font-en: "Century Gothic Pro", "century-gothic-pro", "Futura", "Avenir Next", sans-serif;
+    --font-ja: "Hiragino Sans", "Hiragino Kaku Gothic ProN", "Yu Gothic", "Noto Sans JP", sans-serif;
+    --radius: 8px;
+  }
+
+  /* ========== 1. ベース（雛形どおり） ========== */
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  @page { size: 1128px 846px; margin: 0; }
+  html, body { font-family: var(--font-ja); color: var(--text-primary); background: var(--bg-gray); font-weight: 400; }
+  @media print { html, body { background: var(--bg-white); } }
+  .en { font-family: var(--font-en); }
+  .strong { color: var(--text-strong); font-weight: 700; }
+  .alert { color: var(--text-alert); }
+  .sub { color: var(--text-secondary); }
+  .r { text-align: right; } .c { text-align: center; }
+
+  .page {
+    width: 1128px; height: 846px; position: relative; overflow: hidden;
+    background: var(--bg-white); padding: 48px 56px 40px;
+    margin: 0 auto 24px; page-break-after: always; break-after: page;
+  }
+  @media print { .page { margin: 0; } .page:last-child { page-break-after: auto; } }
+
+  .hd { position: absolute; top: 16px; left: 56px; right: 56px; display: flex; justify-content: space-between;
+        font-family: var(--font-en); font-size: 9px; color: var(--text-muted); letter-spacing: 0.08em; }
+  .ft { position: absolute; bottom: 14px; left: 56px; right: 56px; display: flex; justify-content: space-between;
+        font-family: var(--font-en); font-size: 8.5px; color: var(--text-muted); letter-spacing: 0.05em; }
+
+  .sec-label { font-family: var(--font-en); font-size: 11px; color: var(--text-secondary); letter-spacing: 0.3em; margin-bottom: 8px; }
+  h2.page-title { font-size: 28px; font-weight: 600; letter-spacing: 0.06em; margin-bottom: 8px; }
+  .page-title-sub { font-size: 13px; color: var(--text-secondary); margin-bottom: 24px; line-height: 1.7; }
+  h3 { font-size: 15px; font-weight: 600; }
+  p, li { font-size: 13px; line-height: 1.8; }
+  .note { font-size: 10.5px; color: var(--text-secondary); line-height: 1.7; margin-top: 12px; }
+
+  /* B-1 表紙 */
+  .cover { display: flex; flex-direction: column; justify-content: center; align-items: flex-start; padding: 0 84px; }
+  .cover .watermark { position: absolute; right: -30px; bottom: -55px; font-family: var(--font-en); font-size: 240px; font-weight: 700; color: var(--watermark); letter-spacing: -0.02em; z-index: 0; }
+  .cover > * { z-index: 1; }
+  .cover-eyebrow { font-family: var(--font-en); font-size: 14px; letter-spacing: 0.35em; color: var(--text-secondary); margin-bottom: 28px; }
+  .cover h1 { font-size: 42px; font-weight: 700; line-height: 1.5; letter-spacing: 0.05em; margin-bottom: 20px; }
+  .cover-en { font-family: var(--font-en); font-size: 15px; letter-spacing: 0.45em; margin-bottom: 40px; }
+  .cover-rule { width: 64px; height: 5px; background: var(--brand-secondary); margin-bottom: 40px; }
+  .cover-meta { font-size: 13.5px; color: var(--text-secondary); line-height: 2.1; }
+  .cover-brand { margin-top: 40px; font-size: 17px; font-weight: 600; letter-spacing: 0.12em; }
+
+  /* B-2 章扉 */
+  .divider { background: var(--bg-moss); color: var(--text-on-fill); display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; }
+  .divider .num { position: absolute; top: 48px; left: 56px; font-family: var(--font-en); font-size: 56px; font-weight: 700; color: transparent; -webkit-text-stroke: 1px rgba(255,255,255,0.7); letter-spacing: 0.05em; }
+  .divider .title-en { font-family: var(--font-en); font-size: 48px; letter-spacing: 0.3em; text-transform: uppercase; margin-bottom: 24px; }
+  .divider .title-ja { font-size: 16px; letter-spacing: 0.2em; opacity: 0.9; }
+
+  /* B-4 段組み */
+  .cols { display: flex; gap: 24px; }
+  .col { flex: 1; min-width: 0; }
+  .col .idx { font-family: var(--font-en); font-size: 40px; font-weight: 700; line-height: 1; margin-bottom: 12px; color: var(--bg-dull-green); }
+  .col h3 { margin-bottom: 8px; padding-bottom: 8px; border-bottom: 1px solid var(--border-light); }
+
+  /* B-5/B-6/B-23 カード */
+  .cards { display: flex; gap: 16px; }
+  .cards.grid2 { display: grid; grid-template-columns: 1fr 1fr; }
+  .card { flex: 1; min-width: 0; background: var(--bg-light); border-radius: var(--radius); padding: 20px 24px; }
+  .card.cream { background: var(--bg-cream); }
+  .card.outline { background: var(--bg-white); border: 1.5px solid var(--border-strong); }
+  .card h3 { font-size: 15px; margin-bottom: 10px; }
+  .card p { font-size: 12.5px; line-height: 1.8; }
+  ul.dots { list-style: none; }
+  ul.dots li { padding-left: 18px; position: relative; margin-bottom: 6px; }
+  ul.dots li::before { content: ""; position: absolute; left: 0; top: 9px; width: 8px; height: 8px; border-radius: 50%; background: var(--brand-secondary); }
+
+  /* B-7/B-14 数値 */
+  .kpis { display: flex; gap: 16px; }
+  .kpi { flex: 1; background: var(--bg-light); border-radius: var(--radius); padding: 28px 24px 24px; text-align: center; }
+  .kpi .label { font-size: 13px; font-weight: 600; margin-bottom: 8px; }
+  .kpi .num { font-family: var(--font-en); font-size: 64px; font-weight: 700; line-height: 1.1; }
+  .kpi .num small { font-size: 20px; font-weight: 600; margin-left: 4px; }
+  .kpi .num.strong { color: var(--text-strong); }
+  .kpi .desc { font-size: 11px; color: var(--text-secondary); margin-top: 8px; line-height: 1.6; }
+
+  /* B-9/B-25 表 */
+  table { width: 100%; border-collapse: collapse; }
+  table th, table td { border: 1px solid var(--border-light); padding: 8px 14px; font-size: 12px; text-align: left; vertical-align: middle; line-height: 1.6; }
+  table thead th { background: var(--brand-primary); color: var(--text-on-fill); font-weight: 600; }
+  table td.rowhead, table th.rowhead { background: var(--bg-light); font-weight: 600; width: 170px; }
+  table td.num { text-align: right; font-family: var(--font-en); }
+
+  /* B-10 フロー */
+  .flow { display: flex; align-items: stretch; }
+  .flow-step { flex: 1; background: var(--bg-light); border-radius: var(--radius); padding: 16px 18px; position: relative; margin-right: 32px; }
+  .flow-step:last-child { margin-right: 0; }
+  .flow-step::after { content: "▶"; position: absolute; right: -24px; top: 50%; transform: translateY(-50%); color: var(--brand-secondary); font-size: 14px; }
+  .flow-step:last-child::after { content: none; }
+  .flow-step .f-title { font-size: 13.5px; font-weight: 600; margin-bottom: 8px; }
+  .flow-step .f-idx { font-family: var(--font-en); font-size: 11px; letter-spacing: 0.2em; color: var(--text-secondary); margin-bottom: 4px; }
+  .flow-step p { font-size: 11.5px; line-height: 1.75; }
+
+  /* B-24 タイムライン */
+  .timeline { display: flex; }
+  .tl-item { flex: 1; position: relative; padding-top: 28px; margin-right: 24px; }
+  .tl-item:last-child { margin-right: 0; }
+  .tl-item::before { content: ""; position: absolute; top: 8px; left: 0; width: 16px; height: 16px; border-radius: 50%; background: var(--brand-primary); }
+  .tl-item::after { content: ""; position: absolute; top: 15px; left: 24px; right: -16px; height: 2px; background: var(--border-light); }
+  .tl-item:last-child::after { content: none; }
+  .tl-item.goal::before { background: var(--brand-secondary); }
+  .tl-date { font-family: var(--font-en); font-size: 17px; font-weight: 700; margin-bottom: 4px; }
+  .tl-label { font-size: 12px; line-height: 1.6; }
+
+  /* B-8 ギャラリー・バッジ */
+  .gallery { display: flex; gap: 16px; }
+  .gallery figure { flex: 1; min-width: 0; text-align: center; }
+  .gallery img { width: 100%; aspect-ratio: 3 / 4; object-fit: contain; background: var(--bg-light); border-radius: 6px; display: block; }
+  .gallery figcaption { font-size: 11.5px; margin-top: 8px; line-height: 1.6; }
+  .badge { display: inline-block; background: var(--brand-primary); color: var(--text-on-fill); font-size: 10px; font-weight: 600; letter-spacing: 0.05em; padding: 3px 10px; border-radius: 3px; }
+  .badge.alt { background: var(--bg-dull-green); }
+
+  /* B-22 会社概要 */
+  .company { display: flex; gap: 40px; align-items: flex-start; }
+  .company-left { flex: 1.1; } .company-right { flex: 1; }
+  .company p { font-size: 12px; line-height: 1.95; margin-bottom: 14px; }
+  table.corp th, table.corp td { border: none; border-bottom: 1px solid var(--border-light); padding: 9px 6px; font-size: 11.5px; }
+  table.corp th { width: 110px; color: var(--text-secondary); font-weight: 500; }
+
+  /* ========== 2. この資料だけの追加（色は変数のみ。再利用するなら本体 §6 に追記） ========== */
+  .ph { display: block; width: 100%; height: 100%; object-fit: cover; border-radius: 6px; background: var(--bg-light); }
+  .ph-box { overflow: hidden; border-radius: 6px; background: var(--bg-light); }
+  .ph-cap { font-size: 11px; color: var(--text-secondary); margin-top: 8px; line-height: 1.6; }
+  .ph-cap .en { letter-spacing: 0.2em; margin-right: 8px; }
+  .col .ph-box { height: 200px; margin-bottom: 14px; }
+  .mini-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; margin: 4px 0 10px; }
+  .mini-grid img { width: 100%; aspect-ratio: 3 / 4; object-fit: cover; border-radius: 6px; background: var(--bg-light); display: block; }
+  .mini-label { font-size: 11.5px; font-weight: 600; margin-top: 6px; }
+  .stat-row { display: flex; justify-content: space-between; align-items: baseline; padding: 6px 0; border-bottom: 1px solid var(--border-light); font-size: 11.5px; }
+  .stat-row:last-child { border-bottom: none; }
+  .stat-row .en { font-size: 20px; font-weight: 700; }
+  .stat-row .en small { font-family: var(--font-ja); font-size: 10.5px; font-weight: 400; margin-left: 4px; }
+  .flow-step.hi { background: var(--bg-white); border: 1.5px solid var(--text-strong); }
+  .flow-step.hi .f-title { color: var(--text-strong); }
+  .flow-logo { height: 36px; margin-top: 8px; object-fit: contain; display: block; }
+  .flow-head { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 12px; }
+  .flow-head h3 { font-size: 14px; }
+  .flow-head .sub { font-size: 11px; margin-left: 8px; }
+  .chart-wrap { display: flex; gap: 24px; align-items: stretch; }
+  .chart-wrap svg { display: block; }
+  .chart-side { width: 232px; display: flex; flex-direction: column; gap: 16px; }
+  .chart-side .kpi { padding: 20px 16px 18px; text-align: left; }
+  .chart-side .kpi .num { font-size: 44px; }
+  .photos-row { display: flex; gap: 16px; height: 400px; margin-bottom: 20px; }
+  .photos-row .main { flex: 1.3; }
+  .photos-row .grid { flex: 1; display: grid; grid-template-columns: 1fr 1fr; grid-template-rows: 1fr 1fr; gap: 12px; }
+  .facts { display: flex; gap: 40px; align-items: center; background: var(--bg-light); border-radius: var(--radius); padding: 28px 32px; }
+  .facts .kv { flex: 0 0 420px; }
+  .facts .kv div { font-size: 13px; line-height: 1.8; margin-bottom: 10px; }
+  .facts .kv div:last-child { margin-bottom: 0; }
+  .facts .kv b { margin-right: 10px; }
+  .facts p { font-size: 12.5px; }
+  .pf { display: grid; grid-template-columns: 1fr 1.25fr 1fr; grid-template-rows: repeat(3, 1fr); gap: 20px 16px; }
+  .pf .core { grid-column: 2; display: flex; flex-direction: column; justify-content: space-between; }
+  .pf .core-card { background: var(--bg-white); border: 1.5px solid var(--border-strong); border-radius: var(--radius); padding: 16px 18px; text-align: center; }
+  .pf .core-card img { height: 40px; object-fit: contain; display: block; margin: 10px auto 8px; }
+  .pf .core-card h3 { font-size: 14px; }
+  .pf .core-card .sub { font-size: 11px; }
+  .pf .link { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 6px; padding: 12px 0; font-family: var(--font-en); color: var(--brand-secondary); font-size: 20px; }
+  .pf .link .sub { font-size: 11px; font-family: var(--font-ja); text-align: center; line-height: 1.6; }
+  .pf .sat { background: var(--bg-light); border-radius: var(--radius); padding: 16px 18px; }
+  .pf .sat .s-idx { font-family: var(--font-en); font-size: 10px; letter-spacing: 0.25em; color: var(--text-secondary); margin-bottom: 6px; }
+  .pf .sat h3 { font-size: 13.5px; margin-bottom: 6px; }
+  .pf .sat p { font-size: 11px; line-height: 1.65; }
+  .profile { display: flex; gap: 32px; margin-bottom: 36px; }
+  .profile .ph-box { flex: 0 0 300px; height: 300px; }
+  .profile .bio p { font-size: 12.5px; margin-bottom: 12px; }
+  .profile .bio p:last-child { margin-bottom: 0; }
+  .name-ja { font-size: 20px; font-weight: 600; letter-spacing: 0.08em; margin-bottom: 2px; }
+  .name-en { font-family: var(--font-en); font-size: 11px; letter-spacing: 0.3em; color: var(--text-secondary); margin-bottom: 16px; }
+  .members { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+  .member { display: flex; gap: 20px; align-items: center; background: var(--bg-light); border-radius: var(--radius); padding: 22px 24px; }
+  .member img { width: 120px; height: 120px; border-radius: 50%; object-fit: cover; flex: none; }
+  .member .role { font-size: 11px; color: var(--text-secondary); letter-spacing: 0.08em; margin-bottom: 4px; }
+  .member h3 { font-size: 16px; margin-bottom: 8px; }
+  .member p { font-size: 11px; line-height: 1.7; }
+  .logos { display: flex; justify-content: space-between; align-items: center; gap: 24px; height: 72px; margin: 28px 0 8px; }
+  .logos img { flex: 1; min-width: 0; max-height: 72px; max-width: 150px; object-fit: contain; }
+  .angels { display: flex; justify-content: space-around; text-align: center; margin-top: 20px; }
+  .angels img, .angels .ph-ph { width: 104px; height: 104px; border-radius: 50%; object-fit: cover; margin: 0 auto 10px; display: block; }
+  .angels .ph-ph { background: var(--bg-light); display: flex; align-items: center; justify-content: center; font-family: var(--font-en); font-weight: 700; font-size: 14px; }
+  .angels .org { font-size: 10.5px; color: var(--text-secondary); line-height: 1.6; }
+  .angels .nm { font-size: 14px; font-weight: 600; margin-top: 6px; }
+  .rule { border: none; border-top: 1px solid var(--border-light); margin: 20px 60px; }
 </style>
 </head>
 <body>
-<div class="deck deck--financial" data-company="Domuz inc." data-confidential="true">
 
-<!-- 1. Cover A — watermark -->
-<section class="slide slide--cover">
-  <div class="watermark" aria-hidden="true"><span>Domuz</span><span>Domuz</span><span>Domuz</span></div>
-  <div class="cover-body">
-    <div class="eyebrow">Company Profile</div>
-    <h1 class="cover-title">花卉産業DX／プラットフォーム<br>事業概要資料</h1>
-    <div class="cover-meta">
-      <div class="date">2026.09</div>
-      <div class="author">株式会社Domuz　代表取締役　髙木 弘貴</div>
-    </div>
-  </div>
-  <div class="cover-logos">
-    <img src="../../design-system/assets/logos/andplants-logo.png" alt="AND PLANTS">
-    <img src="../../design-system/assets/logos/hanaichi-logo.png" alt="ハナイチ">
-  </div>
+<!-- ===== 1. B-1 表紙 ===== -->
+<section class="page cover">
+  <div class="watermark">Domuz</div>
+  <div class="cover-eyebrow">COMPANY PROFILE</div>
+  <h1>花卉産業DX／プラットフォーム<br>事業概要資料</h1>
+  <div class="cover-en">DOMUZ INC. — COMPANY PROFILE</div>
+  <div class="cover-rule"></div>
+  <div class="cover-meta">2026年10月1日<br>株式会社Domuz　代表取締役　髙木 弘貴</div>
+  <div class="cover-brand en">AND PLANTS ／ AND FLOWER ／ ハナイチ</div>
+  <div class="ft"><span>Copyright (C) Domuz inc, All Rights Reserved.</span><span>1</span></div>
 </section>
 
-<!-- 2. About -->
-<section class="slide">
-  <div class="title-block">
-    <div class="eyebrow">About Domuz</div>
-    <h1 class="title">花と植物の産業を、テクノロジーで前へ</h1>
-  </div>
-  <div class="content">
-    <div class="about-grid">
-      <figure class="fig">
-        <div class="frame"><img class="photo" src="../../design-system/assets/photos/kv-andplants-greenhouse.jpg" alt="AND PLANTS"></div>
-        <figcaption class="caption"><span class="en">AND PLANTS</span>観葉植物・お花のオンラインストア</figcaption>
-      </figure>
-      <div class="body-sm" style="font-size:9.5pt; line-height:1.7;">
-        <p>観葉植物・お花のオンラインストア「AND PLANTS」を運営し、パーソナル診断による植物選びと、育てやすさに寄り添ったプロダクト・サポートを提供しています。</p>
-        <p class="mt-2">自社の花拠点から全国へ配送するフラワーギフト事業では、母の日・国際女性デーなど季節の企画を毎年展開。ECで培った品質管理・物流ノウハウを活かし、法人さまの一斉配送ギフトにも対応しています。</p>
-        <p class="mt-2">花卉事業者向けの卸マーケットプレイス「ハナイチ」も運営し、C向け・B向けの両面から花卉産業のDXに取り組んでいます。</p>
-      </div>
+<!-- ===== 2. B-4 + B-7 ABOUT ===== -->
+<section class="page">
+  <div class="hd"><span>Domuz inc.</span><span>Confidential</span></div>
+  <div class="sec-label">- ABOUT DOMUZ -</div>
+  <h2 class="page-title">花と植物の産業を、テクノロジーで前へ</h2>
+  <p class="page-title-sub">観葉植物・お花のD2C「AND PLANTS」と、花卉事業者向け卸マーケットプレイス「ハナイチ」の両面から、花卉産業のDXに取り組んでいます。</p>
+  <div class="cols" style="margin-bottom: 24px;">
+    <div class="col" style="flex: 0 0 440px;">
+      <div class="ph-box" style="height: 250px;"><img class="ph" src="../../design-system/assets/photos/kv-andplants-greenhouse.jpg" alt=""></div>
+      <div class="ph-cap"><span class="en">AND PLANTS</span>観葉植物・お花のオンラインストア</div>
     </div>
-    <div class="kpi-row">
-      <div class="card"><div class="kpi"><div class="kpi__label">創業</div><div class="kpi__value" style="font-size:36pt">2018<span class="unit">年</span></div><div class="kpi__note">花卉産業DX事業の開始は 2021年</div></div></div>
-      <div class="card"><div class="kpi"><div class="kpi__label">従業員数</div><div class="kpi__value" style="font-size:36pt">65<span class="unit">名</span></div><div class="kpi__note">社員20名・アルバイト43名（2025年10月現在）</div></div></div>
-      <div class="card"><div class="kpi"><div class="kpi__label">累計エクイティ調達額</div><div class="kpi__value" style="font-size:36pt">4.4<span class="unit">億円</span></div><div class="kpi__note">VC 7社・エンジェル投資家</div></div></div>
+    <div class="col">
+      <p>観葉植物・お花のオンラインストア「AND PLANTS」を運営し、パーソナル診断による植物選びと、育てやすさに寄り添ったプロダクト・サポートを提供しています。</p>
+      <p style="margin-top: 10px;">自社の花拠点から全国へ配送するフラワーギフト事業では、母の日・国際女性デーなど季節の企画を毎年展開。ECで培った品質管理・物流ノウハウを活かし、法人さまの一斉配送ギフトにも対応しています。</p>
+      <p style="margin-top: 10px;">花卉事業者向けの卸マーケットプレイス「ハナイチ」も運営し、仕入れ力と商品の多様性を小売側にも還流させています。</p>
     </div>
   </div>
+  <div class="kpis">
+    <div class="kpi"><div class="label">創業</div><div class="num">2018<small>年</small></div><div class="desc">花卉産業DX事業の開始は 2021年5月</div></div>
+    <div class="kpi"><div class="label">従業員数</div><div class="num">65<small>名</small></div><div class="desc">社員20名・アルバイト43名（2025年10月現在）</div></div>
+    <div class="kpi"><div class="label">累計エクイティ調達額</div><div class="num strong">4.4<small>億円</small></div><div class="desc">VC 7社・エンジェル投資家</div></div>
+  </div>
+  <div class="ft"><span>Copyright (C) Domuz inc, All Rights Reserved.</span><span>2</span></div>
 </section>
 
-<!-- 3. Section -->
-<section class="slide slide--section"><div><div class="section-en">Our Business</div><div class="section-ja">事業内容</div></div></section>
-
-<!-- 4. Services -->
-<section class="slide">
-  <div class="title-block">
-    <div class="eyebrow">Our Business</div>
-    <h1 class="title">運営サービス</h1>
-  </div>
-  <div class="content">
-    <div class="cols cols-3 flex-1">
-      <div class="card card--tight service stack">
-        <div class="frame"><img class="photo" src="../../design-system/assets/photos/kv-andplants-greenhouse.jpg" alt=""></div>
-        <div style="padding:0.1in 0.08in 0;">
-          <span class="badge badge--soft">C向けEC</span>
-          <div class="heading mt-2" style="font-size:15pt; letter-spacing:1.5pt;">AND PLANTS</div>
-          <div class="label label--green mt-1">観葉植物・生花D2C</div>
-          <p class="body-xs mt-2" style="font-size:9.5pt">2021年より、観葉植物、生花、ドライフラワー、園芸グッズなどを中心に、個体差のある商品でも買いやすい領域特化型D2C事業を展開。</p>
-        </div>
-      </div>
-      <div class="card card--tight service stack">
-        <div class="frame"><img class="photo" src="../../design-system/assets/photos/bouquet-04.jpg" alt=""></div>
-        <div style="padding:0.1in 0.08in 0;">
-          <span class="badge badge--soft">C向け・法人向け</span>
-          <div class="heading mt-2" style="font-size:15pt; letter-spacing:1.5pt;">AND FLOWER</div>
-          <div class="label label--green mt-1">フラワーギフトEC</div>
-          <p class="body-xs mt-2" style="font-size:9.5pt">自社の花拠点から全国へ配送するフラワーギフト。母の日・国際女性デーなどの季節企画、法人さまの一斉配送ギフト、他社ECへの「花を添えて贈る」オプション提供。</p>
-        </div>
-      </div>
-      <div class="card card--tight service stack">
-        <div class="logo-box"><img src="../../design-system/assets/logos/hanaichi-logo.png" alt="ハナイチ" style="width:1.7in"></div>
-        <div style="padding:0.1in 0.08in 0;">
-          <span class="badge badge--soft">B向けEC</span>
-          <div class="heading mt-2" style="font-size:15pt; letter-spacing:1.5pt;">ハナイチ</div>
-          <div class="label label--green mt-1">花卉産業向け卸マーケットプレイス</div>
-          <p class="body-xs mt-2" style="font-size:9.5pt">生花や植物などを販売する事業者に向けた卸のマーケットプレイス。生花、植物、資材など、花や植物に関わる事業者が必要な商材を販売。</p>
-        </div>
-      </div>
-    </div>
-  </div>
+<!-- ===== 3. B-2 章扉 ===== -->
+<section class="page divider">
+  <div class="num">01</div>
+  <div class="title-en">Our Business</div>
+  <div class="title-ja">運営サービスと事業の構造</div>
 </section>
 
-<!-- 5. AND PLANTS detail -->
-<section class="slide">
-  <div class="title-block">
-    <div class="eyebrow">Our Business</div>
-    <h1 class="title">観葉植物と花のD2C「AND PLANTS」</h1>
-  </div>
-  <div class="content">
-    <div class="cols cols-3 flex-1">
-      <div class="card center">
-        <div class="heading heading--sm" style="font-size:13pt">扱っている商品</div>
-        <div class="label ink bold mt-3">観葉植物</div>
-        <div class="product-grid mt-1">
-          <img src="../../design-system/assets/photos/plant-01.jpg" alt=""><img src="../../design-system/assets/photos/plant-02.jpg" alt=""><img src="../../design-system/assets/photos/plant-03.jpg" alt="">
-        </div>
-        <div class="label ink bold mt-2">花</div>
-        <div class="product-grid mt-1">
-          <img src="../../design-system/assets/photos/flower-01.jpg" alt=""><img src="../../design-system/assets/photos/flower-02.jpg" alt=""><img src="../../design-system/assets/photos/flower-03.jpg" alt="">
-        </div>
-        <div class="label ink bold mt-2">資材</div>
-        <div class="product-grid mt-1">
-          <img src="../../design-system/assets/photos/goods-01.jpg" alt=""><img src="../../design-system/assets/photos/goods-02.jpg" alt=""><img src="../../design-system/assets/photos/goods-03.jpg" alt="">
-        </div>
-      </div>
-      <div class="card">
-        <div class="heading heading--sm center" style="font-size:13pt">特徴的な機能</div>
-        <div class="heading heading--sm center mt-3" style="font-size:11.5pt">個体差があっても<br>安心して買える仕組み</div>
-        <div class="row mt-2" style="gap:0.12in; height:1.0in;">
-          <div class="frame" style="width:42%; flex:none;"><img class="photo photo--r6" src="../../design-system/assets/photos/plant-04.jpg" alt=""></div>
-          <div class="body-xs"><b class="green">配送前実物写真</b><br>実際に届く商品を配送前に写真で確認。樹形を選べる機能なども提供。</div>
-        </div>
-        <div class="heading heading--sm center mt-2" style="font-size:11.5pt">自社ロジスティクス</div>
-        <div class="row mt-2" style="gap:0.08in; height:0.85in;">
-          <div class="frame flex-1"><img class="photo photo--r6" src="../../design-system/assets/photos/greenhouse-01.jpg" alt=""></div>
-          <div class="frame flex-1"><img class="photo photo--r6" src="../../design-system/assets/photos/flower-hub-02.jpg" alt=""></div>
-        </div>
-        <p class="body-xs mt-2">産地と繋がり、自社でビニールハウスや大規模発送拠点を構えることで、質の高い商品管理と発送を実現。</p>
-      </div>
-      <div class="card">
-        <div class="heading heading--sm center" style="font-size:13pt">マーケティング</div>
-        <div class="heading heading--sm center mt-3" style="font-size:11.5pt">ライフスタイル提案</div>
-        <div class="row mt-2" style="justify-content:center; gap:0.2in; height:1.12in;">
-          <img class="photo photo--contain photo--r6" style="width:0.85in" src="../../design-system/assets/photos/app-diagnosis-question.png" alt="">
-          <img class="photo photo--contain photo--r6" style="width:0.85in" src="../../design-system/assets/photos/app-diagnosis-screen.png" alt="">
-        </div>
-        <p class="body-xs mt-2">診断機能で、暮らしにぴったりの植物・花を提案。「花や植物のある生活」というライフスタイル自体を訴求。</p>
-        <div class="heading heading--sm center mt-2" style="font-size:11.5pt">デジタルマーケティング</div>
-        <div class="mt-1" style="display:grid; grid-template-columns:1fr auto; row-gap:0.04in; align-items:baseline;">
-          <span class="label">サイト PV</span><span class="right"><span class="num green bold" style="font-size:16pt">120</span><span class="label" style="font-size:8.5pt"> 万PV/月</span></span>
-          <span class="label">LINE・メルマガ</span><span class="right"><span class="num green bold" style="font-size:16pt">30</span><span class="label" style="font-size:8.5pt"> 万名</span></span>
-          <span class="label">SNS フォロワー</span><span class="right"><span class="num green bold" style="font-size:16pt">30</span><span class="label" style="font-size:8.5pt"> 万人</span></span>
-        </div>
-      </div>
+<!-- ===== 4. B-4 運営サービス ===== -->
+<section class="page">
+  <div class="hd"><span>Domuz inc.</span><span>Confidential</span></div>
+  <div class="sec-label">- OUR SERVICE -</div>
+  <h2 class="page-title">運営サービス</h2>
+  <p class="page-title-sub">C向けのEC・ギフトと、B向けの卸マーケットプレイスを一体で運営しています。</p>
+  <div class="cols">
+    <div class="col">
+      <div class="idx">1</div>
+      <div class="ph-box"><img class="ph" src="../../design-system/assets/photos/kv-andplants-greenhouse.jpg" alt=""></div>
+      <h3>AND PLANTS<span class="sub" style="font-size: 11px; margin-left: 10px;">観葉植物・生花D2C</span></h3>
+      <p>2021年より、観葉植物、生花、ドライフラワー、園芸グッズなどを中心に、個体差のある商品でも買いやすい領域特化型D2C事業を展開。</p>
+    </div>
+    <div class="col">
+      <div class="idx">2</div>
+      <div class="ph-box"><img class="ph" src="../../design-system/assets/photos/bouquet-04.jpg" alt=""></div>
+      <h3>AND FLOWER<span class="sub" style="font-size: 11px; margin-left: 10px;">フラワーギフトEC</span></h3>
+      <p>自社の花拠点から全国へ配送するフラワーギフト。母の日・国際女性デーなどの季節企画、法人さまの一斉配送ギフト、他社ECへの「花を添えて贈る」オプション提供。</p>
+    </div>
+    <div class="col">
+      <div class="idx">3</div>
+      <div class="ph-box" style="display: flex; align-items: center; justify-content: center;"><img src="../../design-system/assets/logos/hanaichi-logo.png" alt="ハナイチ" style="width: 220px;"></div>
+      <h3>ハナイチ<span class="sub" style="font-size: 11px; margin-left: 10px;">花卉産業向け卸マーケットプレイス</span></h3>
+      <p>生花や植物などを販売する事業者に向けた卸のマーケットプレイス。生花、植物、資材など、花や植物に関わる事業者が必要な商材を販売。</p>
     </div>
   </div>
+  <div class="ft"><span>Copyright (C) Domuz inc, All Rights Reserved.</span><span>4</span></div>
 </section>
 
-<!-- 6. C × B synergy -->
-<section class="slide">
-  <div class="title-block">
-    <div class="eyebrow">Our Business</div>
-    <h1 class="title">C向け事業とB向け事業のシナジー</h1>
-  </div>
-  <div class="content">
-    <div class="card card--warm" style="padding:0.25in 0.3in;">
-      <div class="spread"><span class="heading heading--sm" style="font-size:12pt">AND PLANTS EC <span class="label">　現事業 ｜ C向けEC</span></span><span class="label coral-deep bold">年商 1.1億 → 2.3億 → 5.2億円（2024年9月期）</span></div>
-      <div class="flow mt-1">
-        <div class="box">生産農家</div><div class="arrow"></div><div class="box">卸（市場）</div><div class="arrow"></div><div class="box">仲卸</div><div class="arrow"></div>
-        <div><div class="box box--hi">小売</div><div class="flow-logo"><img src="../../design-system/assets/logos/andplants-logo.png" alt="AND PLANTS"></div></div>
-        <div class="arrow"></div><div class="box">消費者</div>
-      </div>
-      <hr class="rule rule--taupe" style="margin:0.22in 0 0.2in">
-      <div class="spread"><span class="heading heading--sm" style="font-size:12pt">ハナイチ <span class="label">　新事業 ｜ B向けEC（マーケットプレイス）</span></span><span class="label">▶ 生花・植物の流れ</span></div>
-      <div class="flow mt-1">
-        <div class="box">生産農家</div><div class="arrow"></div><div class="box">卸（市場）</div><div class="arrow"></div>
-        <div><div class="box box--hi">仲卸</div><div class="flow-logo"><img src="../../design-system/assets/logos/hanaichi-logo.png" alt="ハナイチ"></div></div>
-        <div class="arrow"></div><div class="box">小売</div><div class="arrow"></div><div class="box">消費者</div>
-      </div>
+<!-- ===== 5. B-6 AND PLANTS の特長 ===== -->
+<section class="page">
+  <div class="hd"><span>Domuz inc.</span><span>Confidential</span></div>
+  <div class="sec-label">- AND PLANTS -</div>
+  <h2 class="page-title">観葉植物と花のD2C「AND PLANTS」</h2>
+  <p class="page-title-sub">個体差のある商品を安心して買える仕組みと、自社ロジスティクス、ライフスタイル提案型のマーケティングが特長です。</p>
+  <div class="cards">
+    <div class="card">
+      <h3>扱っている商品</h3>
+      <div class="mini-label">観葉植物</div>
+      <div class="mini-grid"><img src="../../design-system/assets/photos/plant-01.jpg" alt=""><img src="../../design-system/assets/photos/plant-02.jpg" alt=""><img src="../../design-system/assets/photos/plant-03.jpg" alt=""></div>
+      <div class="mini-label">花</div>
+      <div class="mini-grid"><img src="../../design-system/assets/photos/flower-01.jpg" alt=""><img src="../../design-system/assets/photos/flower-02.jpg" alt=""><img src="../../design-system/assets/photos/flower-03.jpg" alt=""></div>
+      <div class="mini-label">資材</div>
+      <div class="mini-grid"><img src="../../design-system/assets/photos/goods-01.jpg" alt=""><img src="../../design-system/assets/photos/goods-02.jpg" alt=""><img src="../../design-system/assets/photos/goods-03.jpg" alt=""></div>
     </div>
-    <div class="heading heading--sm mt-2" style="font-size:12pt">B向け事業を持つことで</div>
-    <div class="stack mt-1" style="gap:0.06in">
-      <div class="row" style="gap:0.12in; align-items:center"><span class="dot-num">1</span><span class="body-sm">仕入れ力・交渉力が向上し、多様な仕入れが可能に。</span></div>
-      <div class="row" style="gap:0.12in; align-items:center"><span class="dot-num">2</span><span class="body-sm">ハナイチで余りそうな商品を小売でフラッシュセール（Instagram約16万フォロワー・100万UU/月を活用）し、ロス率を減少。</span></div>
-      <div class="row" style="gap:0.12in; align-items:center"><span class="dot-num">3</span><span class="body-sm">C向け・B向けの両方を持つことで、小売のみのときよりも多様な商品の販売が可能に。</span></div>
+    <div class="card">
+      <h3>個体差があっても安心して買える仕組み</h3>
+      <div style="display: flex; gap: 12px; margin-bottom: 14px;">
+        <div class="ph-box" style="flex: 0 0 110px; height: 140px;"><img class="ph" src="../../design-system/assets/photos/plant-04.jpg" alt=""></div>
+        <p><b>配送前実物写真</b><br>実際に届く商品を配送前に写真で確認。樹形を選べる機能なども提供。</p>
+      </div>
+      <h3>自社ロジスティクス</h3>
+      <div style="display: flex; gap: 8px; margin-bottom: 10px;">
+        <div class="ph-box" style="flex: 1; height: 110px;"><img class="ph" src="../../design-system/assets/photos/greenhouse-01.jpg" alt=""></div>
+        <div class="ph-box" style="flex: 1; height: 110px;"><img class="ph" src="../../design-system/assets/photos/flower-hub-02.jpg" alt=""></div>
+      </div>
+      <p>産地と繋がり、自社でビニールハウスや大規模発送拠点を構えることで、質の高い商品管理と発送を実現。</p>
+    </div>
+    <div class="card">
+      <h3>ライフスタイル提案</h3>
+      <div style="display: flex; gap: 16px; justify-content: center; margin-bottom: 12px;">
+        <img src="../../design-system/assets/photos/app-diagnosis-question.png" alt="" style="height: 150px; object-fit: contain; border-radius: 6px;">
+        <img src="../../design-system/assets/photos/app-diagnosis-screen.png" alt="" style="height: 150px; object-fit: contain; border-radius: 6px;">
+      </div>
+      <p>診断機能で、暮らしにぴったりの植物・花を提案。「花や植物のある生活」というライフスタイル自体を訴求。</p>
+      <h3 style="margin-top: 16px;">デジタルマーケティング</h3>
+      <div class="stat-row"><span>サイト PV</span><span class="en">120<small>万PV/月</small></span></div>
+      <div class="stat-row"><span>LINE・メルマガ</span><span class="en">30<small>万名</small></span></div>
+      <div class="stat-row"><span>SNS フォロワー</span><span class="en">30<small>万人</small></span></div>
     </div>
   </div>
+  <div class="ft"><span>Copyright (C) Domuz inc, All Rights Reserved.</span><span>5</span></div>
 </section>
 
-<!-- 7. Growth -->
-<section class="slide">
-  <div class="title-block">
-    <div class="eyebrow">Our Growth</div>
-    <h1 class="title">売上進捗</h1>
+<!-- ===== 6. B-10 シナジー ===== -->
+<section class="page">
+  <div class="hd"><span>Domuz inc.</span><span>Confidential</span></div>
+  <div class="sec-label">- SYNERGY -</div>
+  <h2 class="page-title">C向け事業とB向け事業のシナジー</h2>
+  <p class="page-title-sub">小売（AND PLANTS）と仲卸（ハナイチ）の両方を持つことで、仕入れ力と商品の多様性が高まります。</p>
+  <div class="flow-head"><h3>AND PLANTS EC<span class="sub">現事業 ｜ C向けEC</span></h3><span class="strong" style="font-size: 12px;">年商 1.1億 → 2.3億 → 5.2億円（2024年9月期）</span></div>
+  <div class="flow" style="margin-bottom: 32px;">
+    <div class="flow-step"><div class="f-title">生産農家</div></div>
+    <div class="flow-step"><div class="f-title">卸（市場）</div></div>
+    <div class="flow-step"><div class="f-title">仲卸</div></div>
+    <div class="flow-step hi"><div class="f-title">小売</div><img class="flow-logo" src="../../design-system/assets/logos/andplants-logo.png" alt="AND PLANTS"></div>
+    <div class="flow-step"><div class="f-title">消費者</div></div>
   </div>
-  <div class="content">
-    <div class="growth">
-      <div class="chart" data-chart='{
-        "type":"stacked","unit":"百万円","max":300,"step":50,"legendAlign":"flex-start",
-        "labels":["3Q","4Q","1Q","2Q","3Q","4Q","1Q","2Q","3Q","4Q","1Q","2Q","3Q","4Q","1Q","2Q","3Q"],
-        "groups":[{"label":"2021","from":0,"to":1},{"label":"2022","from":2,"to":5},{"label":"2023","from":6,"to":9},{"label":"2024","from":10,"to":13},{"label":"2025","from":14,"to":16}],
-        "labelIndexes":[0,2,6,10,11,12,13,14,15,16],
-        "series":[
-          {"name":"AND PLANTS","values":[2,7,17,28,32,32,36,50,75,70,78,110,168,146,151,186,235]},
-          {"name":"ハナイチ","values":[0,0,0,0,0,0,0,0,0,0,0,2,7,7,4,4,18]}
-        ]}'></div>
-      <div class="stack" style="gap:0.2in">
-        <div class="card"><div class="kpi"><div class="kpi__label">2025年 3Q 売上</div><div class="kpi__value" style="font-size:34pt">253<span class="unit">百万円</span></div></div></div>
-        <div class="card"><div class="kpi kpi--coral kpi--sm"><div class="kpi__label">前年同期比</div><div class="kpi__value">+45<span class="unit">%</span></div><div class="kpi__note">175 → 253 百万円</div></div></div>
-        <div class="caption" style="margin-top:auto; letter-spacing:0">単位：百万円／2025年7月時点<br>ハナイチ売上は2024年2Qより計上</div>
-      </div>
-    </div>
+  <div class="flow-head"><h3>ハナイチ<span class="sub">新事業 ｜ B向けEC（マーケットプレイス）</span></h3><span class="sub" style="font-size: 11px;">▶ 生花・植物の流れ</span></div>
+  <div class="flow" style="margin-bottom: 36px;">
+    <div class="flow-step"><div class="f-title">生産農家</div></div>
+    <div class="flow-step"><div class="f-title">卸（市場）</div></div>
+    <div class="flow-step hi"><div class="f-title">仲卸</div><img class="flow-logo" src="../../design-system/assets/logos/hanaichi-logo.png" alt="ハナイチ"></div>
+    <div class="flow-step"><div class="f-title">小売</div></div>
+    <div class="flow-step"><div class="f-title">消費者</div></div>
   </div>
+  <h3 style="margin-bottom: 10px;">B向け事業を持つことで</h3>
+  <ul class="dots">
+    <li>仕入れ力・交渉力が向上し、多様な仕入れが可能に。</li>
+    <li>ハナイチで余りそうな商品を小売でフラッシュセール（Instagram約16万フォロワー・100万UU/月を活用）し、ロス率を減少。</li>
+    <li>C向け・B向けの両方を持つことで、小売のみのときよりも多様な商品の販売が可能に。</li>
+  </ul>
+  <div class="ft"><span>Copyright (C) Domuz inc, All Rights Reserved.</span><span>6</span></div>
 </section>
 
-<!-- 8. Section -->
-<section class="slide slide--section"><div><div class="section-en">Our Assets</div><div class="section-ja">自社ロジスティクス・発送拠点</div></div></section>
-
-<!-- 9. Plant hub -->
-<section class="slide">
-  <div class="title-block">
-    <div class="eyebrow">Land / House</div>
-    <h1 class="title">観葉植物発送拠点</h1>
-  </div>
-  <div class="content">
-    <div class="hub-photos">
-      <img class="main" src="../../design-system/assets/photos/greenhouse-sitemap.jpg" alt="">
-      <img src="../../design-system/assets/photos/greenhouse-01.jpg" alt=""><img src="../../design-system/assets/photos/greenhouse-02.jpg" alt="">
-      <img src="../../design-system/assets/photos/greenhouse-03.jpg" alt=""><img src="../../design-system/assets/photos/greenhouse-04.jpg" alt="">
-    </div>
-    <div class="card card--cool mt-3" style="padding:0.32in 0.35in">
-      <div class="fact">
-        <div>
-          <div class="kv"><b>[面積]</b><span class="body">約2,850㎡（ビニールハウス4棟）</span></div>
-          <div class="kv"><b>[場所]</b><span class="body">神奈川県横浜市都筑区（渋谷駅まで約20km）</span></div>
-        </div>
-        <p class="body-sm" style="font-size:9.5pt">観葉植物の発送拠点。2023年3月から運用開始。<br>花卉生産農家の生産拠点（ビニールハウス）をそのまま居抜きで賃借中。観葉植物の管理に必要な基本的な設備が備わっています。全国の観葉植物農家さんから仕入れた植物をここで管理、植替、発送しています。</p>
-      </div>
+<!-- ===== 7. B-17 グラフ 売上進捗 ===== -->
+<section class="page">
+  <div class="hd"><span>Domuz inc.</span><span>Confidential</span></div>
+  <div class="sec-label">- OUR GROWTH -</div>
+  <h2 class="page-title">売上進捗</h2>
+  <p class="page-title-sub">四半期売上の推移（AND PLANTS＋ハナイチ）。2025年3Qは253百万円で、前年同期比 +45%。</p>
+  <div class="chart-wrap">
+    <svg viewBox="0 0 760 480" width="760" height="480" xmlns="http://www.w3.org/2000/svg" font-family="var(--font-en)"><line x1="48" y1="416.0" x2="744" y2="416.0" stroke="var(--border-light)" stroke-width="1"/><text x="40" y="420.0" text-anchor="end" font-size="11" fill="var(--text-secondary)">0</text><line x1="48" y1="351.3" x2="744" y2="351.3" stroke="var(--border-light)" stroke-width="1"/><text x="40" y="355.3" text-anchor="end" font-size="11" fill="var(--text-secondary)">50</text><line x1="48" y1="286.7" x2="744" y2="286.7" stroke="var(--border-light)" stroke-width="1"/><text x="40" y="290.7" text-anchor="end" font-size="11" fill="var(--text-secondary)">100</text><line x1="48" y1="222.0" x2="744" y2="222.0" stroke="var(--border-light)" stroke-width="1"/><text x="40" y="226.0" text-anchor="end" font-size="11" fill="var(--text-secondary)">150</text><line x1="48" y1="157.3" x2="744" y2="157.3" stroke="var(--border-light)" stroke-width="1"/><text x="40" y="161.3" text-anchor="end" font-size="11" fill="var(--text-secondary)">200</text><line x1="48" y1="92.7" x2="744" y2="92.7" stroke="var(--border-light)" stroke-width="1"/><text x="40" y="96.7" text-anchor="end" font-size="11" fill="var(--text-secondary)">250</text><line x1="48" y1="28.0" x2="744" y2="28.0" stroke="var(--border-light)" stroke-width="1"/><text x="40" y="32.0" text-anchor="end" font-size="11" fill="var(--text-secondary)">300</text><rect x="56.2" y="413.4" width="24.6" height="2.6" fill="var(--brand-primary)"/><text x="68.5" y="407.4" text-anchor="middle" font-size="11" font-weight="700" fill="var(--text-primary)">2</text><text x="68.5" y="432" text-anchor="middle" font-size="10.5" fill="var(--text-secondary)">3Q</text><rect x="97.1" y="406.9" width="24.6" height="9.1" fill="var(--brand-primary)"/><text x="109.4" y="400.9" text-anchor="middle" font-size="11" font-weight="700" fill="var(--text-primary)">7</text><text x="109.4" y="432" text-anchor="middle" font-size="10.5" fill="var(--text-secondary)">4Q</text><rect x="138.1" y="394.0" width="24.6" height="22.0" fill="var(--brand-primary)"/><text x="150.4" y="388.0" text-anchor="middle" font-size="11" font-weight="700" fill="var(--text-primary)">17</text><text x="150.4" y="432" text-anchor="middle" font-size="10.5" fill="var(--text-secondary)">1Q</text><rect x="179.0" y="379.8" width="24.6" height="36.2" fill="var(--brand-primary)"/><text x="191.3" y="373.8" text-anchor="middle" font-size="11" font-weight="700" fill="var(--text-primary)">28</text><text x="191.3" y="432" text-anchor="middle" font-size="10.5" fill="var(--text-secondary)">2Q</text><rect x="220.0" y="374.6" width="24.6" height="41.4" fill="var(--brand-primary)"/><text x="232.2" y="368.6" text-anchor="middle" font-size="11" font-weight="700" fill="var(--text-primary)">32</text><text x="232.2" y="432" text-anchor="middle" font-size="10.5" fill="var(--text-secondary)">3Q</text><rect x="260.9" y="374.6" width="24.6" height="41.4" fill="var(--brand-primary)"/><text x="273.2" y="368.6" text-anchor="middle" font-size="11" font-weight="700" fill="var(--text-primary)">32</text><text x="273.2" y="432" text-anchor="middle" font-size="10.5" fill="var(--text-secondary)">4Q</text><rect x="301.8" y="369.4" width="24.6" height="46.6" fill="var(--brand-primary)"/><text x="314.1" y="363.4" text-anchor="middle" font-size="11" font-weight="700" fill="var(--text-primary)">36</text><text x="314.1" y="432" text-anchor="middle" font-size="10.5" fill="var(--text-secondary)">1Q</text><rect x="342.8" y="351.3" width="24.6" height="64.7" fill="var(--brand-primary)"/><text x="355.1" y="345.3" text-anchor="middle" font-size="11" font-weight="700" fill="var(--text-primary)">50</text><text x="355.1" y="432" text-anchor="middle" font-size="10.5" fill="var(--text-secondary)">2Q</text><rect x="383.7" y="319.0" width="24.6" height="97.0" fill="var(--brand-primary)"/><text x="396.0" y="313.0" text-anchor="middle" font-size="11" font-weight="700" fill="var(--text-primary)">75</text><text x="396.0" y="432" text-anchor="middle" font-size="10.5" fill="var(--text-secondary)">3Q</text><rect x="424.7" y="325.5" width="24.6" height="90.5" fill="var(--brand-primary)"/><text x="436.9" y="319.5" text-anchor="middle" font-size="11" font-weight="700" fill="var(--text-primary)">70</text><text x="436.9" y="432" text-anchor="middle" font-size="10.5" fill="var(--text-secondary)">4Q</text><rect x="465.6" y="315.1" width="24.6" height="100.9" fill="var(--brand-primary)"/><text x="477.9" y="309.1" text-anchor="middle" font-size="11" font-weight="700" fill="var(--text-primary)">78</text><text x="477.9" y="432" text-anchor="middle" font-size="10.5" fill="var(--text-secondary)">1Q</text><rect x="506.5" y="273.7" width="24.6" height="142.3" fill="var(--brand-primary)"/><rect x="506.5" y="271.1" width="24.6" height="1.1" fill="var(--brand-secondary)"/><text x="518.8" y="265.1" text-anchor="middle" font-size="11" font-weight="700" fill="var(--text-primary)">112</text><text x="518.8" y="432" text-anchor="middle" font-size="10.5" fill="var(--text-secondary)">2Q</text><rect x="547.5" y="198.7" width="24.6" height="217.3" fill="var(--brand-primary)"/><rect x="547.5" y="189.7" width="24.6" height="7.6" fill="var(--brand-secondary)"/><text x="559.8" y="183.7" text-anchor="middle" font-size="11" font-weight="700" fill="var(--text-primary)">175</text><text x="559.8" y="432" text-anchor="middle" font-size="10.5" fill="var(--text-secondary)">3Q</text><rect x="588.4" y="227.2" width="24.6" height="188.8" fill="var(--brand-primary)"/><rect x="588.4" y="218.1" width="24.6" height="7.6" fill="var(--brand-secondary)"/><text x="600.7" y="212.1" text-anchor="middle" font-size="11" font-weight="700" fill="var(--text-primary)">153</text><text x="600.7" y="432" text-anchor="middle" font-size="10.5" fill="var(--text-secondary)">4Q</text><rect x="629.4" y="220.7" width="24.6" height="195.3" fill="var(--brand-primary)"/><rect x="629.4" y="215.5" width="24.6" height="3.7" fill="var(--brand-secondary)"/><text x="641.6" y="209.5" text-anchor="middle" font-size="11" font-weight="700" fill="var(--text-primary)">155</text><text x="641.6" y="432" text-anchor="middle" font-size="10.5" fill="var(--text-secondary)">1Q</text><rect x="670.3" y="175.4" width="24.6" height="240.6" fill="var(--brand-primary)"/><rect x="670.3" y="170.3" width="24.6" height="3.7" fill="var(--brand-secondary)"/><text x="682.6" y="164.3" text-anchor="middle" font-size="11" font-weight="700" fill="var(--text-primary)">190</text><text x="682.6" y="432" text-anchor="middle" font-size="10.5" fill="var(--text-secondary)">2Q</text><rect x="711.2" y="112.1" width="24.6" height="303.9" fill="var(--brand-primary)"/><rect x="711.2" y="88.8" width="24.6" height="21.8" fill="var(--brand-secondary)"/><text x="723.5" y="82.8" text-anchor="middle" font-size="11" font-weight="700" fill="var(--text-primary)">253</text><text x="723.5" y="432" text-anchor="middle" font-size="10.5" fill="var(--text-secondary)">3Q</text><line x1="52.0" y1="442" x2="125.9" y2="442" stroke="var(--border-light)" stroke-width="1"/><text x="88.9" y="458" text-anchor="middle" font-size="10.5" fill="var(--text-secondary)">2021</text><line x1="133.9" y1="442" x2="289.6" y2="442" stroke="var(--border-light)" stroke-width="1"/><text x="211.8" y="458" text-anchor="middle" font-size="10.5" fill="var(--text-secondary)">2022</text><line x1="297.6" y1="442" x2="453.4" y2="442" stroke="var(--border-light)" stroke-width="1"/><text x="375.5" y="458" text-anchor="middle" font-size="10.5" fill="var(--text-secondary)">2023</text><line x1="461.4" y1="442" x2="617.2" y2="442" stroke="var(--border-light)" stroke-width="1"/><text x="539.3" y="458" text-anchor="middle" font-size="10.5" fill="var(--text-secondary)">2024</text><line x1="625.2" y1="442" x2="740.0" y2="442" stroke="var(--border-light)" stroke-width="1"/><text x="682.6" y="458" text-anchor="middle" font-size="10.5" fill="var(--text-secondary)">2025</text><rect x="494" y="459" width="12" height="12" fill="var(--brand-primary)"/><text x="512" y="470" font-size="11" fill="var(--text-secondary)" font-family="var(--font-ja)">AND PLANTS</text><rect x="594" y="459" width="12" height="12" fill="var(--brand-secondary)"/><text x="612" y="470" font-size="11" fill="var(--text-secondary)" font-family="var(--font-ja)">ハナイチ</text><text x="744" y="470" text-anchor="end" font-size="11" fill="var(--text-secondary)" font-family="var(--font-ja)">単位: 百万円</text></svg>
+    <div class="chart-side">
+      <div class="kpi"><div class="label">2025年 3Q 売上</div><div class="num">253<small>百万円</small></div></div>
+      <div class="kpi"><div class="label">前年同期比</div><div class="num strong">+45<small>%</small></div><div class="desc">175 → 253 百万円</div></div>
+      <p class="note" style="margin-top: auto;">※ 2025年7月時点。ハナイチの売上は2024年2Qより計上。ラベルの無い四半期は概算。</p>
     </div>
   </div>
+  <div class="ft"><span>Copyright (C) Domuz inc, All Rights Reserved.</span><span>7</span></div>
 </section>
 
-<!-- 10. Flower hub -->
-<section class="slide">
-  <div class="title-block">
-    <div class="eyebrow">Land / House</div>
-    <h1 class="title">生花発送拠点</h1>
-  </div>
-  <div class="content">
-    <div class="row flex-1" style="gap:0.2in">
-      <div class="frame flex-1"><img class="photo" src="../../design-system/assets/photos/flower-hub-01.jpg" alt=""></div>
-      <div class="frame flex-1"><img class="photo" src="../../design-system/assets/photos/flower-hub-02.jpg" alt=""></div>
-    </div>
-    <div class="card card--cool mt-3" style="padding:0.32in 0.35in">
-      <div class="fact">
-        <div>
-          <div class="kv"><b>[面積]</b><span class="body">約560㎡（2拠点）</span></div>
-          <div class="kv"><b>[場所]</b><span class="body">溝の口駅、川崎駅</span></div>
-        </div>
-        <p class="body-sm" style="font-size:9.5pt">生花発送のための拠点を2拠点運用しています。<br>大きな冷蔵庫を完備しており、質の高いブーケやアレンジメントの製作・発送を可能にしています。法人様向けの大量発注にも対応可能です。</p>
-      </div>
-    </div>
-  </div>
+<!-- ===== 8. B-2 章扉 ===== -->
+<section class="page divider">
+  <div class="num">02</div>
+  <div class="title-en">Our Assets</div>
+  <div class="title-ja">自社ロジスティクス・発送拠点</div>
 </section>
 
-<!-- 11. Section -->
-<section class="slide slide--section"><div><div class="section-en">Platform Vision</div><div class="section-ja">DX／プラットフォーム構想</div></div></section>
-
-<!-- 12. Platform map -->
-<section class="slide">
-  <div class="title-block">
-    <div class="eyebrow">Platform Vision</div>
-    <h1 class="title">花卉産業DXを軸としたプラットフォーム</h1>
-  </div>
-  <div class="content">
-    <div class="card card--warm flex-1" style="padding:0.3in">
-      <div class="platform">
-        <div class="card card--paper sat"><div class="en">Retail</div><div class="heading heading--sm">リアル店舗</div><p class="body-xs">観葉植物・花の専門店。OMO施策・送客</p></div>
-        <div class="link"><div class="arrow arrow--green arrow--both"></div></div>
-        <div class="center">
-          <div class="core-card">
-            <div class="spread"><span class="badge">C向けEC</span><span class="label label--green">現事業</span></div>
-            <img src="../../design-system/assets/logos/andplants-logo.png" alt="AND PLANTS">
-            <div class="heading heading--sm" style="font-size:11pt">AND PLANTS</div><div class="label">花・植物領域特化EC</div>
-          </div>
-          <div class="v-link">
-            <div class="v-arrows"><i></i><i></i></div>
-            <div class="caption mocha" style="line-height:1.5">余り商品の販売<br>仕入れ力向上<br>アセット共有</div>
-          </div>
-          <div class="core-card">
-            <div class="spread"><span class="badge">B向けEC</span><span class="label label--green">現事業</span></div>
-            <img src="../../design-system/assets/logos/hanaichi-logo.png" alt="ハナイチ" style="height:0.4in">
-            <div class="heading heading--sm" style="font-size:11pt">ハナイチ</div><div class="label">花屋／植物屋向け 仕入れEC</div>
-          </div>
-        </div>
-        <div class="link"><div class="arrow arrow--green arrow--both"></div></div>
-        <div class="card card--paper sat"><div class="en">3PL</div><div class="heading heading--sm">高付加価値3PL</div><p class="body-xs">他ジャンルの商材を保管し、高付加価値の梱包発送</p></div>
-
-        <div class="card card--paper sat"><div class="en">Green rental</div><div class="heading heading--sm">グリーンレンタル</div><p class="body-xs">法人向けに社内緑化およびメンテナンス</p></div>
-        <div class="link"><div class="arrow arrow--green arrow--both"></div></div>
-        <div class="link"><div class="arrow arrow--green arrow--both"></div></div>
-        <div class="card card--paper sat"><div class="spread"><span class="en">Enabler</span><span class="badge badge--soft">一部実現</span></div><div class="heading heading--sm">生花イネイブラー</div><p class="body-xs">異業種に花の販売機能を提供 → AND FLOWER ギフトオプションとして提供中</p></div>
-
-        <div class="card card--paper sat"><div class="en">Grower roll-up</div><div class="heading heading--sm">生産者ロールアップ</div><p class="body-xs">小売・卸の情報を元に売れる商品を生産。M&amp;A→DX</p></div>
-        <div class="link"><div class="arrow arrow--green arrow--both"></div></div>
-        <div class="link"><div class="arrow arrow--green arrow--both"></div></div>
-        <div class="card card--paper sat"><div class="en">Export</div><div class="heading heading--sm">輸出プラットフォーム</div><p class="body-xs">国内生産者・加工品メーカーと海外サプライヤーを繋ぐ</p></div>
-      </div>
+<!-- ===== 9. B-15 観葉植物発送拠点 ===== -->
+<section class="page">
+  <div class="hd"><span>Domuz inc.</span><span>Confidential</span></div>
+  <div class="sec-label">- LAND / HOUSE -</div>
+  <h2 class="page-title">観葉植物発送拠点</h2>
+  <p class="page-title-sub">花卉生産農家のビニールハウスを居抜きで賃借し、全国の農家から仕入れた植物を管理・植替・発送しています。</p>
+  <div class="photos-row">
+    <div class="ph-box main"><img class="ph" src="../../design-system/assets/photos/greenhouse-sitemap.jpg" alt=""></div>
+    <div class="grid">
+      <div class="ph-box"><img class="ph" src="../../design-system/assets/photos/greenhouse-01.jpg" alt=""></div>
+      <div class="ph-box"><img class="ph" src="../../design-system/assets/photos/greenhouse-02.jpg" alt=""></div>
+      <div class="ph-box"><img class="ph" src="../../design-system/assets/photos/greenhouse-03.jpg" alt=""></div>
+      <div class="ph-box"><img class="ph" src="../../design-system/assets/photos/greenhouse-04.jpg" alt=""></div>
     </div>
   </div>
+  <div class="facts">
+    <div class="kv">
+      <div><b>[面積]</b>約2,850㎡（ビニールハウス4棟）</div>
+      <div><b>[場所]</b>神奈川県横浜市都筑区（渋谷駅まで約20km）</div>
+    </div>
+    <p>観葉植物の発送拠点。2023年3月から運用開始。花卉生産農家の生産拠点（ビニールハウス）をそのまま居抜きで賃借中。観葉植物の管理に必要な基本的な設備が備わっています。</p>
+  </div>
+  <div class="ft"><span>Copyright (C) Domuz inc, All Rights Reserved.</span><span>9</span></div>
 </section>
 
-<!-- 13. Section -->
-<section class="slide slide--section"><div><div class="section-en">Team</div><div class="section-ja">チーム</div></div></section>
-
-<!-- 14. CEO -->
-<section class="slide">
-  <div class="title-block">
-    <div class="eyebrow">Member Profile</div>
-    <h1 class="title">代表取締役　髙木 弘貴</h1>
+<!-- ===== 10. B-15 生花発送拠点 ===== -->
+<section class="page">
+  <div class="hd"><span>Domuz inc.</span><span>Confidential</span></div>
+  <div class="sec-label">- LAND / HOUSE -</div>
+  <h2 class="page-title">生花発送拠点</h2>
+  <p class="page-title-sub">大型冷蔵庫を備えた2拠点で、ブーケ・アレンジメントの製作から発送まで行います。</p>
+  <div class="photos-row">
+    <div class="ph-box" style="flex: 1;"><img class="ph" src="../../design-system/assets/photos/flower-hub-01.jpg" alt=""></div>
+    <div class="ph-box" style="flex: 1;"><img class="ph" src="../../design-system/assets/photos/flower-hub-02.jpg" alt=""></div>
   </div>
-  <div class="content">
-    <div class="ceo-grid">
-      <div class="frame"><img class="photo" src="../../design-system/assets/photos/member-takagi.jpg" alt="髙木 弘貴"></div>
-      <div class="body-sm" style="font-size:10pt; line-height:1.65">
-        <p>早稲田大学政治経済学部卒業後、タイのバンコクにて旅行系情報／予約サイトで起業。その後、東証プライム上場企業エス・エム・エス創業者の諸藤周平氏が創業したREAPRAグループのベトナム現地法人代表に就任し、ベトナム人向け人材サービス、ベトナム女性向けWEBメディアの立ち上げ、日系大手企業向けの受託開発オフショア拠点開発を行う。</p>
-        <p class="mt-2">2018年に帰国し、株式会社Domuzを創業。システム開発やマーケティング支援を行いながら、1つ目の自社事業としてプログラミングスクールの口コミサイトを立ち上げ、東証グロース上場のGMOメディア社に売却。</p>
-        <p class="mt-2">2つ目の事業として、花卉産業DX／プラットフォーム事業に挑戦中。</p>
-      </div>
+  <div class="facts">
+    <div class="kv">
+      <div><b>[面積]</b>約560㎡（2拠点）</div>
+      <div><b>[場所]</b>溝の口駅、川崎駅</div>
     </div>
-    <div class="steps">
-      <div class="circle-step">旅行系<br>スタートアップ創業<br>@タイ</div><div class="arrow arrow--yellow" style="border-top-width:2pt; margin:0 0.1in"></div>
-      <div class="circle-step">オフショア開発<br>会社現地代表<br>@ベトナム</div><div class="arrow arrow--yellow" style="border-top-width:2pt; margin:0 0.1in"></div>
-      <div class="circle-step">エンジニア向け<br>メディア<br>売却</div><div class="arrow arrow--yellow" style="border-top-width:2pt; margin:0 0.1in"></div>
-      <div class="circle-step">花卉産業DX・<br>プラットフォーム<br>事業</div>
-    </div>
+    <p>生花発送のための拠点を2拠点運用しています。大きな冷蔵庫を完備しており、質の高いブーケやアレンジメントの製作・発送を可能にしています。法人様向けの大量発注にも対応可能です。</p>
   </div>
+  <div class="ft"><span>Copyright (C) Domuz inc, All Rights Reserved.</span><span>10</span></div>
 </section>
 
-<!-- 15. Members -->
-<section class="slide">
-  <div class="title-block">
-    <div class="eyebrow">Team</div>
-    <h1 class="title">メンバー紹介</h1>
-  </div>
-  <div class="content">
-    <div class="members">
-      <div class="card member">
-        <img class="photo photo--circle" src="../../design-system/assets/photos/member-komatsu.jpg" alt="">
-        <div><div class="label label--green">事業開発</div><div class="heading mt-1">小松 泰彦</div><p class="body-xs mt-2" style="line-height:1.55">東京工業大学環境・社会理工学院建築学系卒業後、ADKマーケティング・ソリューションズに入社。データ分析やメディアプランニングに従事。その後、学生時代にインターンとして関わっていたDomuzへ出戻り入社。</p></div>
-      </div>
-      <div class="card member">
-        <img class="photo photo--circle" src="../../design-system/assets/photos/member-suzuki.jpg" alt="">
-        <div><div class="label label--green">リードエンジニア</div><div class="heading mt-1">鈴木 新芽</div><p class="body-xs mt-2" style="line-height:1.55">東京大学情報理工学修士卒業後、富士通に入社。ネットワークサービスの企画・運用、ブロックチェーンを軸にした新規事業開発を経てREAPRA Venturesに入社。投資先の共通テクノロジー支援を担当。2020年7月Domuzに参画。</p></div>
-      </div>
-      <div class="card member">
-        <img class="photo photo--circle" src="../../design-system/assets/photos/member-kadoike.jpg" alt="">
-        <div><div class="label label--green">経営企画・HR</div><div class="heading mt-1">門池 金八</div><p class="body-xs mt-2" style="line-height:1.55">東京大学卒業後、営業職を経て教育分野で起業。その後、教育系スタートアップ企業に参画し、プロダクトマネージャーやCOOなど様々なキャリアを積む。現在の主な専門領域はバックオフィス。2022年よりDomuzに参画。</p></div>
-      </div>
-      <div class="card member">
-        <img class="photo photo--circle" src="../../design-system/assets/photos/member-sato.jpg" alt="">
-        <div><div class="label label--green">バイヤー</div><div class="heading mt-1">佐藤 桃子</div><p class="body-xs mt-2" style="line-height:1.55">ハウスメーカーで造園・観葉植物などに携わったのち、観葉植物専門店の店長としてトータルでプロデュースを手掛ける。2022年よりアンドプランツに所属。著書に『INTERIOR GREEN 観葉植物と日常』（ブティック社）。他、監修本多数。</p></div>
-      </div>
-    </div>
-  </div>
+<!-- ===== 11. B-2 章扉 ===== -->
+<section class="page divider">
+  <div class="num">03</div>
+  <div class="title-en">Platform Vision</div>
+  <div class="title-ja">DX／プラットフォーム構想</div>
 </section>
 
-<!-- 16. Investors -->
-<section class="slide">
-  <div class="title-block">
-    <div class="eyebrow">Our Investor</div>
-    <h1 class="title">支援いただいているVC／エンジェル投資家</h1>
+<!-- ===== 12. B-16 ビジネスモデル図 ===== -->
+<section class="page">
+  <div class="hd"><span>Domuz inc.</span><span>Confidential</span></div>
+  <div class="sec-label">- PLATFORM VISION -</div>
+  <h2 class="page-title">花卉産業DXを軸としたプラットフォーム</h2>
+  <p class="page-title-sub">C向けEC・B向けECの2つのマーケットプレイスを核に、送客・アセット共有で周辺事業へ広げていきます。</p>
+  <div class="pf">
+    <div class="sat"><div class="s-idx">RETAIL</div><h3>リアル店舗</h3><p>観葉植物・花の専門店。OMO施策・送客</p></div>
+    <div class="core" style="grid-row: 1 / span 3;">
+      <div class="core-card"><span class="badge">C向けEC</span><img src="../../design-system/assets/logos/andplants-logo.png" alt="AND PLANTS"><h3>AND PLANTS</h3><div class="sub">花・植物領域特化EC</div></div>
+      <div class="link"><span>▲▼</span><div class="sub">余り商品の販売／仕入れ力向上／アセット共有</div></div>
+      <div class="core-card"><span class="badge">B向けEC</span><img src="../../design-system/assets/logos/hanaichi-logo.png" alt="ハナイチ"><h3>ハナイチ</h3><div class="sub">花屋／植物屋向け 仕入れEC</div></div>
+    </div>
+    <div class="sat"><div class="s-idx">3PL</div><h3>高付加価値3PL</h3><p>他ジャンルの商材を保管し、高付加価値の梱包発送</p></div>
+    <div class="sat"><div class="s-idx">GREEN RENTAL</div><h3>グリーンレンタル</h3><p>法人向けに社内緑化およびメンテナンス</p></div>
+    <div class="sat"><div class="s-idx">ENABLER <span class="badge alt" style="margin-left: 6px;">一部実現</span></div><h3>生花イネイブラー</h3><p>異業種に花の販売機能を提供 → AND FLOWER ギフトオプションとして提供中</p></div>
+    <div class="sat"><div class="s-idx">GROWER ROLL-UP</div><h3>生産者ロールアップ</h3><p>小売・卸の情報を元に売れる商品を生産。M&amp;A→DX</p></div>
+    <div class="sat"><div class="s-idx">EXPORT</div><h3>輸出プラットフォーム</h3><p>国内生産者・加工品メーカーと海外サプライヤーを繋ぐ</p></div>
   </div>
-  <div class="content center-v">
-    <div class="card card--cool center" style="height:0.9in; display:flex; align-items:center; justify-content:center; gap:0.15in">
-      <span class="label ink" style="font-size:10pt">累計エクイティ調達額</span>
-      <span class="num green bold" style="font-size:32pt; line-height:1">4.4</span><span class="body">億円</span><span class="label">（累計）</span>
-    </div>
-    <div class="logos mt-2" style="height:0.7in">
-      <div><img src="../../design-system/assets/logos/investor-chiba-dojo.png" alt="千葉道場"></div>
-      <div><img src="../../design-system/assets/logos/investor-new-commerce-ventures.png" alt="New Commerce Ventures"></div>
-      <div><img src="../../design-system/assets/logos/investor-ffg.png" alt="FFG"></div>
-      <div><img src="../../design-system/assets/logos/investor-pola-orbis-capital.png" alt="POLA ORBIS CAPITAL"></div>
-      <div><img src="../../design-system/assets/logos/investor-value-chain-innovation-fund.png" alt="Value Chain Innovation Fund"></div>
-      <div><img src="../../design-system/assets/logos/investor-seibu-holdings.png" alt="Seibu Holdings"></div>
-    </div>
-    <div class="label ink bold center mt-2" style="letter-spacing:2pt">giftee</div>
-    <hr class="rule mt-2" style="margin-left:1in; margin-right:1in">
-    <div class="angels mt-2">
-      <div><img src="../../design-system/assets/photos/angel-yanagisawa.jpg" alt=""><div class="label" style="font-size:8pt">ファンコミュニケーションズ（A8.net）</div><div class="label label--green" style="font-size:8pt">創業者・元代表取締役社長</div><div class="heading mt-1" style="font-size:12pt">柳澤 安慶</div></div>
-      <div><img src="../../design-system/assets/photos/angel-sugita.jpg" alt=""><div class="label" style="font-size:8pt">JMDC</div><div class="label label--green" style="font-size:8pt">元COO</div><div class="heading mt-1" style="font-size:12pt">杉田 玲夢</div></div>
-      <div><div class="ph">DNX</div><div class="label" style="font-size:8pt">DNX Ventures</div><div class="label label--green" style="font-size:8pt">Managing Partner / Head of Japan</div><div class="heading mt-1" style="font-size:12pt">倉林 陽</div></div>
-    </div>
-    <div class="label center mt-2">等 その他5名</div>
-  </div>
+  <div class="ft"><span>Copyright (C) Domuz inc, All Rights Reserved.</span><span>12</span></div>
 </section>
 
-<!-- 17. Company profile table -->
-<section class="slide">
-  <div class="title-block">
-    <div class="eyebrow">Company</div>
-    <h1 class="title">会社概要</h1>
+<!-- ===== 13. B-2 章扉 ===== -->
+<section class="page divider">
+  <div class="num">04</div>
+  <div class="title-en">Team</div>
+  <div class="title-ja">代表・メンバー・投資家</div>
+</section>
+
+<!-- ===== 14. B-11 代表プロフィール ===== -->
+<section class="page">
+  <div class="hd"><span>Domuz inc.</span><span>Confidential</span></div>
+  <div class="sec-label">- MEMBER PROFILE -</div>
+  <h2 class="page-title">代表取締役</h2>
+  <p class="page-title-sub">株式会社Domuz 代表取締役</p>
+  <div class="profile">
+    <div class="ph-box"><img class="ph" src="../../design-system/assets/photos/member-takagi.jpg" alt="髙木 弘貴"></div>
+    <div class="bio">
+      <div class="name-ja">髙木 弘貴</div>
+      <div class="name-en">HIROKI TAKAGI</div>
+      <p>早稲田大学政治経済学部卒業後、タイのバンコクにて旅行系情報／予約サイトで起業。その後、東証プライム上場企業エス・エム・エス創業者の諸藤周平氏が創業したREAPRAグループのベトナム現地法人代表に就任し、ベトナム人向け人材サービス、ベトナム女性向けWEBメディアの立ち上げ、日系大手企業向けの受託開発オフショア拠点開発を行う。</p>
+      <p>2018年に帰国し、株式会社Domuzを創業。システム開発やマーケティング支援を行いながら、1つ目の自社事業としてプログラミングスクールの口コミサイトを立ち上げ、東証グロース上場のGMOメディア社に売却。</p>
+      <p>2つ目の事業として、花卉産業DX／プラットフォーム事業に挑戦中。</p>
+    </div>
   </div>
-  <div class="content center-v" style="padding:0 0.6in 0.3in">
-    <table class="table table--lg">
-      <tbody>
-        <tr><th style="width:1.9in">会社名</th><td>株式会社Domuz</td></tr>
+  <div class="timeline">
+    <div class="tl-item"><div class="tl-date">BANGKOK</div><div class="tl-label">旅行系スタートアップ創業</div></div>
+    <div class="tl-item"><div class="tl-date">VIETNAM</div><div class="tl-label">オフショア開発会社 現地代表</div></div>
+    <div class="tl-item"><div class="tl-date">2018</div><div class="tl-label">Domuz 創業。エンジニア向けメディアを売却</div></div>
+    <div class="tl-item goal"><div class="tl-date">2021〜</div><div class="tl-label">花卉産業DX・プラットフォーム事業</div></div>
+  </div>
+  <div class="ft"><span>Copyright (C) Domuz inc, All Rights Reserved.</span><span>14</span></div>
+</section>
+
+<!-- ===== 15. B-12 メンバー ===== -->
+<section class="page">
+  <div class="hd"><span>Domuz inc.</span><span>Confidential</span></div>
+  <div class="sec-label">- TEAM -</div>
+  <h2 class="page-title">メンバー紹介</h2>
+  <p class="page-title-sub">事業開発・エンジニアリング・経営企画・バイイングの各領域で、専門性を持つメンバーが運営しています。</p>
+  <div class="members">
+    <div class="member"><img src="../../design-system/assets/photos/member-komatsu.jpg" alt=""><div><div class="role">事業開発</div><h3>小松 泰彦</h3><p>東京工業大学環境・社会理工学院建築学系卒業後、ADKマーケティング・ソリューションズに入社。データ分析やメディアプランニングに従事。その後、学生時代にインターンとして関わっていたDomuzへ出戻り入社。</p></div></div>
+    <div class="member"><img src="../../design-system/assets/photos/member-suzuki.jpg" alt=""><div><div class="role">リードエンジニア</div><h3>鈴木 新芽</h3><p>東京大学情報理工学修士卒業後、富士通に入社。ネットワークサービスの企画・運用、ブロックチェーンを軸にした新規事業開発を経てREAPRA Venturesに入社。投資先の共通テクノロジー支援を担当。2020年7月Domuzに参画。</p></div></div>
+    <div class="member"><img src="../../design-system/assets/photos/member-kadoike.jpg" alt=""><div><div class="role">経営企画・HR</div><h3>門池 金八</h3><p>東京大学卒業後、営業職を経て教育分野で起業。その後、教育系スタートアップ企業に参画し、プロダクトマネージャーやCOOなど様々なキャリアを積む。現在の主な専門領域はバックオフィス。2022年よりDomuzに参画。</p></div></div>
+    <div class="member"><img src="../../design-system/assets/photos/member-sato.jpg" alt=""><div><div class="role">バイヤー</div><h3>佐藤 桃子</h3><p>ハウスメーカーで造園・観葉植物などに携わったのち、観葉植物専門店の店長としてトータルでプロデュースを手掛ける。2022年よりアンドプランツに所属。著書に『INTERIOR GREEN 観葉植物と日常』（ブティック社）。他、監修本多数。</p></div></div>
+  </div>
+  <div class="ft"><span>Copyright (C) Domuz inc, All Rights Reserved.</span><span>15</span></div>
+</section>
+
+<!-- ===== 16. B-13 ロゴウォール ===== -->
+<section class="page">
+  <div class="hd"><span>Domuz inc.</span><span>Confidential</span></div>
+  <div class="sec-label">- OUR INVESTOR -</div>
+  <h2 class="page-title">支援いただいているVC／エンジェル投資家</h2>
+  <p class="page-title-sub">累計エクイティ調達額は 4.4億円。事業会社・VC・エンジェル投資家にご支援いただいています。</p>
+  <div class="kpis">
+    <div class="kpi" style="flex: 0 0 100%; padding: 20px;"><div class="label">累計エクイティ調達額</div><div class="num" style="font-size: 48px;">4.4<small>億円</small></div></div>
+  </div>
+  <div class="logos">
+    <img src="../../design-system/assets/logos/investor-chiba-dojo.png" alt="千葉道場">
+    <img src="../../design-system/assets/logos/investor-new-commerce-ventures.png" alt="New Commerce Ventures">
+    <img src="../../design-system/assets/logos/investor-ffg.png" alt="FFG">
+    <img src="../../design-system/assets/logos/investor-pola-orbis-capital.png" alt="POLA ORBIS CAPITAL">
+    <img src="../../design-system/assets/logos/investor-value-chain-innovation-fund.png" alt="Value Chain Innovation Fund">
+    <img src="../../design-system/assets/logos/investor-seibu-holdings.png" alt="Seibu Holdings">
+  </div>
+  <div class="c en" style="font-size: 13px; letter-spacing: 0.2em; font-weight: 600;">GIFTEE</div>
+  <hr class="rule">
+  <div class="angels">
+    <div><img src="../../design-system/assets/photos/angel-yanagisawa.jpg" alt=""><div class="org">ファンコミュニケーションズ（A8.net）<br>創業者・元代表取締役社長</div><div class="nm">柳澤 安慶</div></div>
+    <div><img src="../../design-system/assets/photos/angel-sugita.jpg" alt=""><div class="org">JMDC<br>元COO</div><div class="nm">杉田 玲夢</div></div>
+    <div><div class="ph-ph">DNX</div><div class="org">DNX Ventures<br>Managing Partner / Head of Japan</div><div class="nm">倉林 陽</div></div>
+  </div>
+  <p class="note c">等 その他5名</p>
+  <div class="ft"><span>Copyright (C) Domuz inc, All Rights Reserved.</span><span>16</span></div>
+</section>
+
+<!-- ===== 17. B-22 会社概要（最終ページ固定） ===== -->
+<section class="page">
+  <div class="hd"><span>Domuz inc.</span><span>Confidential</span></div>
+  <div class="sec-label">- COMPANY -</div>
+  <h2 class="page-title">会社概要</h2>
+  <p class="page-title-sub">AND PLANTS ／ AND FLOWER ／ ハナイチ ／ 株式会社Domuz</p>
+  <div class="company">
+    <div class="company-left">
+      <p>観葉植物・お花のオンラインストア「AND PLANTS」を運営し、パーソナル診断による植物選びと、育てやすさに寄り添ったプロダクト・サポートをご提供しています。</p>
+      <p>自社の花拠点から全国へ配送するフラワーギフト事業「AND FLOWER」では、季節の企画や法人さまの一斉配送ギフトに対応。ECで培った品質管理・物流ノウハウを活かし、法人・店舗さまへのグリーン導入やメンテナンスまで一貫して対応しています。</p>
+      <p>花卉事業者向けの卸マーケットプレイス「ハナイチ」も運営し、C向け・B向けの両面から花卉産業のDXに取り組んでいます。</p>
+    </div>
+    <div class="company-right">
+      <table class="corp">
+        <tr><th>会社名</th><td>株式会社Domuz</td></tr>
         <tr><th>所在地</th><td>神奈川県川崎市中原区小杉御殿町2-69-6 2F</td></tr>
         <tr><th>代表取締役</th><td>髙木 弘貴</td></tr>
         <tr><th>創業</th><td>2018年10月（花卉産業DX事業の開始は2021年5月）</td></tr>
@@ -459,22 +569,12 @@
         <tr><th>従業員数</th><td>65名（社員20名、アルバイト43名）※2025年10月現在</td></tr>
         <tr><th>主要取引銀行</th><td>みずほ銀行</td></tr>
         <tr><th>運営サービス</th><td>AND PLANTS（観葉植物・生花EC）／ AND FLOWER（フラワーギフトEC）／ ハナイチ（花卉事業者向け卸マーケットプレイス）</td></tr>
-        <tr><th>URL</th><td class="num" style="text-align:left">https://domuz.jp/　／　https://andplants.jp/　／　https://hana-ichi.jp/</td></tr>
-      </tbody>
-    </table>
+        <tr><th>URL</th><td class="en">https://domuz.jp/　https://andplants.jp/　https://hana-ichi.jp/</td></tr>
+      </table>
+    </div>
   </div>
+  <div class="ft"><span>Copyright (C) Domuz inc, All Rights Reserved.</span><span>17</span></div>
 </section>
 
-<!-- 18. Closing -->
-<section class="slide slide--closing" data-footer>
-  <div>
-    <div class="section-en" style="letter-spacing:8pt">Domuz</div>
-    <div class="section-ja">花卉産業DX／プラットフォーム</div>
-    <div class="urls"><span>https://domuz.jp/</span><span>https://andplants.jp/</span><span>https://hana-ichi.jp/</span></div>
-  </div>
-</section>
-
-</div>
-<script src="../../design-system/html/deck.js"></script>
 </body>
 </html>
