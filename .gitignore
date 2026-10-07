@@ -2,3 +2,4 @@ node_modules/
 .DS_Store
 decks/*/output/preview/
 __pycache__/
+*.bundle
